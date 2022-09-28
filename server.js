@@ -24,8 +24,6 @@ app.use(express.json({limit: '50mb'}))
 
 //app.get('/',(req,res)=>{ res.send('WELCOME HOME!')})
 
-app.get('*', (req, res) => {res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))})
-
 app.use('/api/dias/auth',authRouter)
 app.use('/api/dias/user',authenticateUser,jobRouter)
 app.use('/api/dias/email',authenticateUser,jobRouter)
@@ -33,6 +31,8 @@ app.use('/api/dias/gallery',authenticateUser,jobRouter)
 app.use('/api/dias/news',authenticateUser,jobRouter)
 app.use('/api/dias/members',authenticateUser,jobRouter)
 app.use('/api/dias/new',authenticateUser,authRouter)
+
+app.get('*', (req, res) => {res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))})
 
 app.use(notFoundMiddleware)
 //error in any of the routes function
