@@ -8,16 +8,23 @@ import jobRouter from './routes/jobRouter.js'
 import 'express-async-errors'
 import morgan from 'morgan'
 import authenticateUser from './middleware/auth.js'
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+import path from 'path'
 
 dotenv.config()
 
 const app = express()
 if(process.env.NODE_ENV !== 'production'){app.use(morgan('dev'))}
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+app.use(express.static(path.resolve(__dirname, './client/build')))
+
 app.use(express.json({limit: '50mb'}))
 
-app.get('/',(req,res)=>{
-    res.send('WELCOME HOME!')
-})
+//app.get('/',(req,res)=>{ res.send('WELCOME HOME!')})
+
+app.get('*', (req, res) => {res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))})
 
 app.use('/api/dias/auth',authRouter)
 app.use('/api/dias/user',authenticateUser,jobRouter)
