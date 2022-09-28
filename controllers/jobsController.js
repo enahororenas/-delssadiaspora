@@ -1,0 +1,223 @@
+import News from "../models/News.js"
+import User from '../models/User.js'
+import { StatusCodes } from 'http-status-codes'
+import {BadRequestError, NotFoundError} from '../errors/index.js'
+import checkPermissions from "../utils/checkPermissions.js"
+import contactEmail from '../utils/emailSetup.js'
+import cloudinary from '../utils/cloudinarySetup.js'
+
+const createJob =async(req,res) =>{
+    const {position,company} = req.body
+    if(!position||!company){
+        throw new BadRequestError('Please provide all values')
+    }
+    req.body.createdBy=req.user.userId
+    const job = await Job.create(req.body)
+    res.status(StatusCodes.CREATED).json({job})
+}
+
+const getAllMembers =async(req,res) =>{
+    const { search } = req.query
+    //console.log('QRY',req.query,' = ',search)
+
+    try{   
+      var queryObject
+      if (!search || search === '') {  queryObject = {}}
+      else {
+        queryObject = {
+            $or: [
+                {lname: new RegExp(search, 'i')}, 
+                {fname: new RegExp(search, 'i')}
+                ] 
+          }
+      }
+      
+        let result = User.find(queryObject)
+        
+        // setup pagination
+        const page = Number(req.query.page) || 1
+        const limit = Number(req.query.limit) || 10
+        const skip = (page - 1) * limit
+      
+        result = result.skip(skip).limit(limit)
+      
+        const response = await result
+        const totalMembers = await User.countDocuments(queryObject)
+        const numOfPages = Math.ceil(totalMembers / limit)
+      
+        const members = response.map((user) =>({
+        fname: user.fname,
+        lname: user.lname,
+        email:user.email,
+        image: user.image,
+        location:user.location,
+        yog:user.yog,
+        id:user._id,
+        house:user.house,
+        occupation:user.occupation,
+        //position:user.position
+        //company:user.company,
+    }))
+    res.status(StatusCodes.OK).json({members,totalMembers,numOfPages})
+    }  catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not get all members' });
+    } 
+}
+
+const getNews =async(req,res) =>{
+    const response = await News.find({})
+    const news = response.map((file) => ({
+        newsItem: file.newsItem,
+        image: file.image,
+        nid:file.nid,
+        header:file.header
+    }))
+    res.status(StatusCodes.OK).json({news,totalNews:news.length})
+    //res.send('get Tea')
+}
+
+const getAllImages =async(req,res) =>{
+    try{
+        const { resources } = await cloudinary.search
+    .expression('folder:Gallery')
+    .execute();
+    const urls = resources.map((file) => file.secure_url);
+    //console.log('ID',urls)
+    res.status(StatusCodes.OK).json({urls,totalUrls:urls.length})
+    } catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not get all images' });
+    }  
+    //res.send('get Images')
+}
+
+const getAllJobs =async(req,res) =>{
+    const jobs = await Job.find({createdBy:req.user.userId})
+    res.status(StatusCodes.OK)
+    .json({jobs,totalJobs:jobs.length,numOfPages:1})
+}
+
+
+const deleteJob =async(req,res) =>{
+    const{id:jobId} = req.params
+    const job = await Job.findOne({_id:jobId})
+    if(!job){throw new NotFoundError(`No job with id: ${jobId}`)}
+    checkPermissions(req.user,job.createdBy)
+    await job.remove()
+    res.status(StatusCodes.OK).json({msg:'Successfuly removed the job'})
+}
+
+const deleteNews=async(req,res)=>{
+    var check = []
+    if(!req.body) {throw new BadRequestError('You must select an article')}
+    for (const niv in req.body){ check.push(niv) }
+    if(check.length === 0 ) {throw new BadRequestError('You must select an article')}
+    try{
+        await News.deleteMany({'nid':{'$in':check}})
+        res.status(StatusCodes.OK).json({msg:'Successfuly deleted the news article'})
+    } catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    }   
+}
+
+const updateJob =async(req,res) =>{
+    //console.log('UPDATE REQUEST',req.params,'BD',req.body)
+    const{id:jobId} = req.params
+    const{company,position} = req.body
+    if(!position||!company){
+        throw new BadRequestError('Please provide all values')
+    }
+    const job = await Job.findOne({_id:jobId})
+    if(!job){throw new NotFoundError(`No job with id: ${jobId}`)}
+    
+    //console.log('USR',req.user.userId,'====',job.createdBy.toString())
+    //check permission
+    checkPermissions(req.user,job.createdBy)
+
+    const updatedJob = await Job.findOneAndUpdate({_id:jobId},req.body,{
+        new:true,
+        runValidators:true,
+    })
+    res.status(StatusCodes.CREATED).json({updatedJob})
+}
+
+const showStats =async(req,res) =>{
+    res.send('show stats')
+}
+
+const sendEmail =async(req,res) =>{
+    //console.log('SEND EMAIL SERVER',req.body,'AND',contactEmail)
+    const {email,fname,lname,message} = req.body.body
+    
+    if(!email||!message||!lname||!fname){
+        throw new BadRequestError('Please provide all values')
+    }
+
+    const name = fname+' '+lname
+    const mail = {
+      from: name,
+      to: "dellssaadiaspora@gmail.com",
+      subject: "DELLSSAA DIASPORA Contact Form Submission",
+      html: `<p>Name:${name}</p>
+             <p>Email:${email}</p>
+             <p>Message:${message}</p>`,
+    };
+
+    contactEmail.sendMail(mail, (error) => {
+        if (error) {
+            console.log('error',error)
+            res.status(StatusCodes.OK).json({msg:error})
+        } else {       
+            res.status(StatusCodes.OK).json({msg:'Email Sent Successfuly to DELLSSAA'})
+        }
+      });
+      //res.send('show stats')
+}
+
+
+const addImage = async(req,res) => {
+    //console.log('INCOMING',req.body)
+    //console.log(cloudinary.config())
+
+    const fileStr = req.body.image.data;
+    if(!fileStr){ throw new BadRequestError('Please provide all values')}
+    //console.log(fileStr,'STR')
+  
+    try {
+        const response = await cloudinary.uploader.upload(fileStr,{  upload_preset: process.env.CLOUDINARY_GALLERY})
+        //console.log('IMAGE UPLOAD RESPONSE',response)
+        res.status(StatusCodes.OK).json({url: response.secure_url})
+    }  catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not upload image' });
+    }     
+//res.send('User Image Added')
+}
+
+const addNews = async(req,res) => {
+   try {
+        const{input} = req.body
+        if(!input.newsItem||!input.head){ throw new BadRequestError('Please provide all values')}
+        var response
+        if(input.image && input.image !== '') { 
+            response = await cloudinary.uploader.upload(input.image,{  upload_preset: process.env.CLOUDINARY_NEWS})    
+        }
+        var nid
+        const lastEntry = await News.findOne().sort('-_id')
+        if(lastEntry){ nid = lastEntry.nid + 1 }
+        else {nid = 1}      
+        const item = {
+            newsItem :   input.newsItem,
+            createdBy:req.user.userId,
+            nid : nid,
+            header: input.head
+        }
+        if(response){item.image = response.secure_url}
+        //console.log('YESS',item)
+        const news = await News.create(item)
+        res.status(StatusCodes.CREATED).json({news})
+    }  catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not add news item' });
+    }
+//res.send('News Item Added')
+}
+export {createJob, deleteJob, getAllJobs, updateJob, showStats,sendEmail
+    ,addImage,getAllImages,addNews,getNews,getAllMembers,deleteNews}
