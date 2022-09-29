@@ -9,7 +9,7 @@ import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,DISPLAY_CUSTOM_A
     //GET_JOBS_BEGIN,GET_JOBS_SUCCESS,SET_EDIT_JOB,DELETE_JOB_BEGIN,
     //EDIT_JOB_BEGIN,EDIT_JOB_ERROR,EDIT_JOB_SUCCESS,
     UPDATE_USER_IMAGE_BEGIN,UPDATE_USER_IMAGE_SUCCESS,UPDATE_USER_IMAGE_ERROR,
-    GET_IMAGES_BEGIN,GET_IMAGES_SUCCESS,GET_IMAGES_ERROR,
+    GET_IMAGES_BEGIN,GET_IMAGES_SUCCESS,GET_IMAGES_ERROR,GET_BDAY_SUCCESS,
     GET_NEWS_ITEM_BEGIN,GET_NEWS_ITEM_SUCCESS,GET_NEWS_ITEM_ERROR,
     GET_MEMBERS_BEGIN,GET_MEMBERS_ERROR,GET_MEMBERS_SUCCESS,
     ADD_NEW_USER_TO_REGISTER_BEGIN,ADD_NEW_USER_TO_REGISTER_SUCCESS,ADD_NEW_USER_TO_REGISTER_ERROR,
@@ -45,6 +45,8 @@ const initialState = {
     urls:[],
     totalUrls:1,
     news:[],
+    bdays:[],
+    totalBday:0,
     totalNews:1,
     numOfPages:1,
     page:1,
@@ -314,6 +316,23 @@ const AppProvider = ({children}) => {
         clearAlert()
     }
 
+    const getBday = async() => {
+        let url =`/auth/getbday`  
+        try{
+            const {data} = await authFetch.get(url)
+            //console.log('RETURNED',data)
+            const {bday,totalBday} = data
+            {totalBday > 0 &&
+            dispatch({
+                type:GET_BDAY_SUCCESS,
+                payload:{bday,totalBday}
+             })
+            }
+            
+        }catch(error){
+        }
+    }
+
     const getMembers = async() => {
         const { page, search } = state
 
@@ -461,6 +480,7 @@ const AppProvider = ({children}) => {
             getNews,
             getMembers,
             deleteNews,
+            getBday,
             //createJob,
             //getJobs,
             //setEditJob,
