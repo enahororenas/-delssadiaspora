@@ -17,7 +17,7 @@ const Profile = () => {
   const [lname,setLastName] = useState(user.lname||'')
   const [fname,setFirstName] = useState(user.fname||'')
   const [location,setLocation] = useState(user.location||'')
-  
+  const [bday,setBday] = useState(user.bday||'')  
   const [occupation,setOccupation] = useState(user.occupation||'')
   
   //const [position,setPosition] = useState(user.position||'')
@@ -28,6 +28,9 @@ const Profile = () => {
   const [yog,setYog] = useState(user.yog||'')
   const [subject,setSubject] = useState(user.subject||'')
   
+  const dt = new Date();
+  const currentDate = dt.toISOString().slice(0, 10)
+
   const navigate = useNavigate()
   useEffect(() => {
     if(backB === 'move'){navigate('/user')}
@@ -55,12 +58,11 @@ const Profile = () => {
 
   const handleSubmit =(e) => { 
     e.preventDefault()
-    if(!email||!fname||!lname||!location||!occupation||!house||!teacher||!subject||!yog){
+    if(!email||!fname||!lname||!location||!occupation||!house||!teacher||!subject||!yog||!bday){
       displayAlert()
       return
     }
-    
-    updateUser({ fname,lname, email, location,occupation,house,teacher,subject,yog })
+    updateUser({ fname,lname, email, location,occupation,house,teacher,subject,yog,bday })
     }
 
   const handleSubmit2 = (e) => {
@@ -117,6 +119,14 @@ const Profile = () => {
 
         <FormRow type='text' name='yog' value={yog} labelText='Year of Graduation'
         handleChange={(e)=> setYog(e.target.value)}/>
+
+        {/*<FormRow type='month' name='bday' value={bday} labelText='Birthday'
+        handleChange={(e)=> setBday(e.target.value)}/>*/}
+
+        <div className='form-row'>
+        <label htmlFor="bday-month" className='form-label'>Birthday</label>
+        <input type="date" name="bday" min="1900-01" max={currentDate} className='form-input' onChange={(e)=> setBday(e.target.value)}/>
+        </div>
 
         <button className='btn btn-block' type='submit' disabled={isLoading}>
           {isLoading?'Please Wait.....':'save profile changes'}
