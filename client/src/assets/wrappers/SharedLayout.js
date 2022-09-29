@@ -38,6 +38,11 @@ const Wrapper = styled.section`
     margin-left: 20px;
   }
 
+  .dashbirthday{
+    margin-top: 20px;
+    margin-left:20px;
+  }
+
   .dashboard {
     display: grid;
     grid-template-columns: 1fr;
