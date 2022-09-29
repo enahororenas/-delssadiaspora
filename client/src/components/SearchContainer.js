@@ -1,4 +1,4 @@
-import { FormRow, FormRowSelect } from '.'
+import { FormRow } from '.'
 import { useAppContext } from '../context/appContext'
 import Wrapper from '../assets/wrappers/SearchContainer'
 
