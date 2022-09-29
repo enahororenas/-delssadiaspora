@@ -100,9 +100,10 @@ const makeAUserAdmin=async(req,res)=>{
 }
 
 const updateUser = async(req,res) => {
-    const {email,fname,lname,location,occupation,house,teacher,subject,yog} = req.body
-//console.log('IN SERVER UPDATE USER',req.body)
-    if(!email || !fname ||!lname||!location||!occupation||!house||!teacher||!subject||!yog){
+    const {email,fname,lname,location,occupation,house,teacher,subject,yog,bday} = req.body
+    //console.log('IN SERVER UPDATE USER',bday)
+
+    if(!email || !fname ||!lname||!location||!occupation||!house||!teacher||!subject||!yog||!bday){
         throw new BadRequestError('Please provide all values')
     }
     const user = await User.findOne({_id:req.user.userId})
@@ -111,7 +112,7 @@ const updateUser = async(req,res) => {
     user.fname = fname
     user.lname=lname
     user.location=location
-    //user.position=position
+    user.bday=bday
     //user.company=company
     user.house=house
     user.teacher=teacher
@@ -124,9 +125,20 @@ const updateUser = async(req,res) => {
     //res.send('User OKRRR')
 }
 
-const getUsersImage = async(req,res) => {
-    console.log('GET IMAGE SERVER CALLED',req.body)
-    res.send('User OKRRR')
+const getBday = async(req,res) => {
+    //console.log('GET BDAY SERVER CALLED',req.body)
+    const dt = new Date();
+    const currentDate = dt.toISOString().slice(0, 10)
+    const allBday = await User.find({ bday: { $eq:currentDate } })
+    if(allBday.length > 0){
+        const bday = allBday.map((file) => ({
+            fname:file.fname,
+            lname:file.lname
+        }))
+        res.status(StatusCodes.OK).json({bday,totalBday:allBday.length})
+    } else {res.status(StatusCodes.OK).json({bday:'NONE',totalBday:0})}
+    
+    //res.send('User OKRRR')
 }
 
 const updateUsersImage = async(req,res) => {  
@@ -150,4 +162,4 @@ const updateUsersImage = async(req,res) => {
     }     
 //res.send('User Image Added')
 }
-export {register, login, updateUser,updateUsersImage,getUsersImage,addNewUserToDB,makeAUserAdmin}
+export {register, login, updateUser,updateUsersImage,getBday,addNewUserToDB,makeAUserAdmin}
