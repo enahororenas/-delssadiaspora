@@ -90,6 +90,11 @@ const DUserSchema = new mongoose.Schema({
         default:'',
         trim:true,
     },
+    bday:{
+        type:String,
+        maxlength:500,
+        default:''
+    },
     admin:{
         type:Boolean,
         default:false,
