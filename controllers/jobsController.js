@@ -176,19 +176,21 @@ const sendEmail =async(req,res) =>{
 
 const addImage = async(req,res) => {
     //console.log('INCOMING',req.body)
-    //console.log(cloudinary.config())
-
-    const fileStr = req.body.image.data;
-    if(!fileStr){ throw new BadRequestError('Please provide all values')}
-    //console.log(fileStr,'STR')
-  
+    
+    if(!req.body.image.data){ throw new BadRequestError('Please provide all values')}
+    
     try {
-        const response = await cloudinary.uploader.upload(fileStr,{  upload_preset: process.env.CLOUDINARY_GALLERY})
-        //console.log('IMAGE UPLOAD RESPONSE',response)
-        res.status(StatusCodes.OK).json({url: response.secure_url})
-    }  catch(error){
+        const urls = []
+        const {data} = req.body.image
+        const multiplePicturePromise = data.map((picture) =>
+            cloudinary.uploader.upload(picture,{  upload_preset: process.env.CLOUDINARY_GALLERY})
+        );        
+        const imageResponses = await Promise.all(multiplePicturePromise)
+        for (const res in imageResponses){ urls.push(res.secure_url)}
+        res.status(StatusCodes.OK).json({url: urls})
+    }  catch(error){ 
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not upload image' });
-    }     
+    }      
 //res.send('User Image Added')
 }
 
