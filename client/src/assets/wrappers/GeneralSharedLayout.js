@@ -27,6 +27,20 @@ const Wrapper = styled.section`
       margin-left:20px;
     }
 
+  .parent_div {
+  width: 100%;
+  }
+  .child_div{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+ }
+
+.image{
+  width: 80%;
+  height: 80%;
+  
+}
 
   .dashboard {
     display: grid;
