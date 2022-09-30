@@ -18,6 +18,11 @@ const Addnewimage = () => {
     const handleFileInputChange = (e) => {
       
       if (e.target.files) {
+        if(e.target.files.length > 10){
+          customAlert('YOU CAN ONLY UPLOAD A MAXIMUM OF 10')
+          return
+        }
+        
         for(const file of e.target.files) { 
           setSelectedFile(oldArray => [...oldArray, file]);
           const reader = new FileReader();
@@ -86,7 +91,7 @@ const Addnewimage = () => {
                <div className="parent_div">  
                 <div className='child_div'>
                {allImages.length !== 0 && (allImages.map((image) => { 
-                   return  <img  src={image}  alt="chosen" className='image' />
+                   return  <img  src={image} key={image} alt="chosen" className='image' />
                   })
                  )}
                  </div>
