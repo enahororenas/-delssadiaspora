@@ -10,5 +10,7 @@ import FormRowSelect from './FormRowSelect'
 import JobsContainer from "./JobsContainer";
 import Profilecontainer from "./Profilecontainer";
 import Newsitem from "./Newsitem";
-export {Logo,FormRow,Alert,SmallSidebar,BigSidebar,Navbar,
+import Slideshow from "./Slideshow";
+import Gallerynavbar from "./Gallerynavbar";
+export {Logo,FormRow,Alert,SmallSidebar,BigSidebar,Navbar,Slideshow,Gallerynavbar,
 Profilecontainer,UserInfo,SearchContainer,FormRowSelect,JobsContainer,Newsitem}
