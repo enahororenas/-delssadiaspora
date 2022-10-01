@@ -29,7 +29,7 @@ const JobsContainer = () => {
     <Wrapper>
       <div className='dashboard-page'>
           <div style={{marginLeft:'50px'}}>
-      <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0'}}>DELLSSAA DIASPORA MEMBERS</h5>
+      <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0'}}>DELSSAA DIASPORA MEMBERS</h5>
       <div className='jobs'>
       {members.map((member) => { return <Profilecontainer key={member.id} {...member} /> })}  
       </div>
