@@ -1,6 +1,14 @@
 import React from 'react'
+import { useAppContext } from '../context/appContext'
 
 const Thumbnail = ({ arr, image, index }) => {
+
+const {updateGlobalIndex}=useAppContext()
+
+const update =(i)=>{
+  updateGlobalIndex(i)
+  image(i)
+}
     return (
     <div>
       {
@@ -9,8 +17,9 @@ const Thumbnail = ({ arr, image, index }) => {
             key={i}
             height="50"
             src={imgsrc}
-            onClick={() => image(i)}
+            onClick={() => update(i)}
             className={index === i ? 'active' : ''}
+            alt=''
           />
         ))
       }
