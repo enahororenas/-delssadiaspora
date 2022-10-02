@@ -6,11 +6,12 @@ import Loading from '../../components/Loading'
 
 
 const Gallery = () => {
-const {getImages,isLoading,urls} = useAppContext()
+const {getImages,isLoading,urls,getComments,new_comment} = useAppContext()
 
 useEffect(()=>{
   getImages()
-},[])
+  getComments()
+},[new_comment])
 
 
 if(isLoading){return <Loading center/>}
@@ -21,7 +22,7 @@ if(isLoading){return <Loading center/>}
         <div className="imageparent">
           
           {urls.length !== 0 && <Slideshow imgs={urls}/> } 
-          {urls.length === 0 && <h1 style={{fontWeight:'bold'}}>No Image Available</h1> }
+          {/*{urls.length === 0 && <h1 style={{fontWeight:'bold'}}>No Image Available</h1> }*/}
           
        </div>
     </Wrapper>
