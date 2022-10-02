@@ -31,6 +31,7 @@ app.use('/api/dias/gallery',authenticateUser,jobRouter)
 app.use('/api/dias/news',authenticateUser,jobRouter)
 app.use('/api/dias/members',authenticateUser,jobRouter)
 app.use('/api/dias/new',authenticateUser,authRouter)
+app.use('/api/dias/comment',authenticateUser,jobRouter)
 
 app.get('*', (req, res) => {res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))})
 
