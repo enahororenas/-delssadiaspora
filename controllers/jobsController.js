@@ -1,20 +1,40 @@
 import News from "../models/News.js"
 import User from '../models/User.js'
+import Comment from "../models/Comment.js"
 import { StatusCodes } from 'http-status-codes'
 import {BadRequestError, NotFoundError} from '../errors/index.js'
 import checkPermissions from "../utils/checkPermissions.js"
 import contactEmail from '../utils/emailSetup.js'
 import cloudinary from '../utils/cloudinarySetup.js'
 
-const createJob =async(req,res) =>{
-    const {position,company} = req.body
-    if(!position||!company){
+const createComment =async(req,res) =>{
+    const{user,text,parentId,url} = req.body
+    if(!text||!url){
         throw new BadRequestError('Please provide all values')
     }
-    req.body.createdBy=req.user.userId
-    const job = await Job.create(req.body)
-    res.status(StatusCodes.CREATED).json({job})
+    const username = user.fname +'_'+user.lname
+    const userId = user._id
+    if(parentId){
+        const child = await Comment.findOne({_id:parentId})
+        if(child.parentId){
+            throw new BadRequestError('Can only reply to a parent comment')
+        }
+    }
+    const new_comment = await Comment.create({username,userId,text,url,parentId})
+    res.status(StatusCodes.CREATED).json({new_comment})
+    //res.send('MOBY')    
 }
+
+const getComments =async(req,res) =>{
+    //console.log('REQ',req.body)
+    try{
+        const totalComments = await Comment.find({})
+        res.status(StatusCodes.OK).json(totalComments)
+    }catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not get comments' });
+    }
+}
+
 
 const getAllMembers =async(req,res) =>{
     const { search } = req.query
@@ -97,13 +117,23 @@ const getAllJobs =async(req,res) =>{
 }
 
 
-const deleteJob =async(req,res) =>{
-    const{id:jobId} = req.params
-    const job = await Job.findOne({_id:jobId})
-    if(!job){throw new NotFoundError(`No job with id: ${jobId}`)}
-    checkPermissions(req.user,job.createdBy)
-    await job.remove()
-    res.status(StatusCodes.OK).json({msg:'Successfuly removed the job'})
+const deleteComment =async(req,res) =>{  
+    try{
+    const comment = await Comment.findOne({_id:req.body.commentId})
+    if(!comment){throw new NotFoundError('Cant find comment to delete')}
+
+    if(!comment.parentId){
+        const allChildren = await Comment.find({parentId:req.body.commentId})
+        const ids = allChildren.map( (item) => item._id);
+        ids.push(comment._id)
+        await Comment.deleteMany({'_id':{'$in':ids}})
+    } else {
+        await comment.remove()
+    }
+    res.status(StatusCodes.OK).json({msg:'Successfuly removed the comment'})
+    }catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    }
 }
 
 const deleteNews=async(req,res)=>{
@@ -140,8 +170,12 @@ const updateJob =async(req,res) =>{
     res.status(StatusCodes.CREATED).json({updatedJob})
 }
 
-const showStats =async(req,res) =>{
-    res.send('show stats')
+const updateComment =async(req,res) =>{
+    const{text,id} = req.body
+    const old_comment = await Comment.findOne({_id:id})
+    if(!old_comment){throw new NotFoundError('Existing Comment Not Found')}
+    const new_comment = await Comment.findOneAndUpdate({_id:id},{text})
+    res.status(StatusCodes.CREATED).json({new_comment})    
 }
 
 const sendEmail =async(req,res) =>{
@@ -221,5 +255,5 @@ const addNews = async(req,res) => {
     }
 //res.send('News Item Added')
 }
-export {createJob, deleteJob, getAllJobs, updateJob, showStats,sendEmail
-    ,addImage,getAllImages,addNews,getNews,getAllMembers,deleteNews}
+export {createComment,getAllJobs, updateJob, updateComment,sendEmail,deleteComment
+    ,addImage,getAllImages,addNews,getNews,getAllMembers,deleteNews,getComments}
