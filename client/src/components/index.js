@@ -12,5 +12,6 @@ import Profilecontainer from "./Profilecontainer";
 import Newsitem from "./Newsitem";
 import Slideshow from "./Slideshow";
 import Gallerynavbar from "./Gallerynavbar";
+import Comments from "./Comment/Comments";
 export {Logo,FormRow,Alert,SmallSidebar,BigSidebar,Navbar,Slideshow,Gallerynavbar,
-Profilecontainer,UserInfo,SearchContainer,FormRowSelect,JobsContainer,Newsitem}
+Profilecontainer,UserInfo,SearchContainer,FormRowSelect,JobsContainer,Newsitem,Comments}
