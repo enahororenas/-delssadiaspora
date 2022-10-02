@@ -2,18 +2,19 @@ import React, { useContext, useReducer} from "react";
 import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,DISPLAY_CUSTOM_ALERT,
     SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,CLEAR_VALUES,CLEAR_FILTERS,
     UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR,HANDLE_CHANGE,CHANGE_PAGE,
-    SEND_EMAIL_SUCCESS,SEND_EMAIL_BEGIN,SEND_EMAIL_ERROR,
+    SEND_EMAIL_SUCCESS,SEND_EMAIL_BEGIN,SEND_EMAIL_ERROR,UPDATE_GLOBAL_COUNT,
     ADD_NEW_IMAGE_BEGIN,ADD_NEW_IMAGE_SUCCESS,ADD_NEW_IMAGE_ERROR,
     ADD_NEWS_ITEM_BEGIN,ADD_NEWS_ITEM_SUCCESS,ADD_NEWS_ITEM_ERROR,
-    //CREATE_JOB_BEGIN,CREATE_JOB_SUCCESS,CREATE_JOB_ERROR,
-    //GET_JOBS_BEGIN,GET_JOBS_SUCCESS,SET_EDIT_JOB,DELETE_JOB_BEGIN,
-    //EDIT_JOB_BEGIN,EDIT_JOB_ERROR,EDIT_JOB_SUCCESS,
+    CREATE_COMMENT_BEGIN,CREATE_COMMENT_ERROR,CREATE_COMMENT_SUCCESS,
+    GET_COMMENT_BEGIN,GET_COMMENT_SUCCESS,GET_COMMENT_ERROR,
+    UPDATE_COMMENT_BEGIN,UPDATE_COMMENT_ERROR,UPDATE_COMMENT_SUCCESS,
     UPDATE_USER_IMAGE_BEGIN,UPDATE_USER_IMAGE_SUCCESS,UPDATE_USER_IMAGE_ERROR,
     GET_IMAGES_BEGIN,GET_IMAGES_SUCCESS,GET_IMAGES_ERROR,GET_BDAY_SUCCESS,
     GET_NEWS_ITEM_BEGIN,GET_NEWS_ITEM_SUCCESS,GET_NEWS_ITEM_ERROR,
     GET_MEMBERS_BEGIN,GET_MEMBERS_ERROR,GET_MEMBERS_SUCCESS,
     ADD_NEW_USER_TO_REGISTER_BEGIN,ADD_NEW_USER_TO_REGISTER_SUCCESS,ADD_NEW_USER_TO_REGISTER_ERROR,
     MAKE_ADMIN_BEGIN,MAKE_ADMIN_SUCCESS,MAKE_ADMIN_ERROR,
+    DELETE_COMMENT_BEGIN,DELETE_COMMENT_ERROR,DELETE_COMMENT_SUCCESS,
     DELETE_NEWS_ITEM_BEGIN,DELETE_NEWS_ITEM_ERROR,DELETE_NEWS_ITEM_SUCCESS
  } from "./action";
 import reducer from "./reducer";
@@ -23,6 +24,7 @@ import axios from 'axios'
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
 const userLocation = localStorage.getItem('location')
+
 
 //const token = null
 //const user = null
@@ -61,6 +63,9 @@ const initialState = {
     uid:'',
     search: '',
     occupation:'',
+    new_comment:'',
+    totalComments:[],
+    commentIndex:0,
 }
 
 const AppContext = React.createContext()
@@ -96,6 +101,10 @@ const AppProvider = ({children}) => {
     const displayAlert = () => { 
         dispatch({type:DISPLAY_ALERT}) 
         clearAlert()
+    }
+
+    const updateGlobalIndex = (index) => { 
+        dispatch({type:UPDATE_GLOBAL_COUNT,payload:{msg:index}}) 
     }
 
     const customAlert = (alertText) => { 
@@ -388,78 +397,68 @@ const AppProvider = ({children}) => {
         clearAlert()
     }
 
-   /* 
-    const createJob = async () => {
-        dispatch({type:CREATE_JOB_BEGIN})
+
+    const createComment = async (comment) => {
+        dispatch({type:CREATE_COMMENT_BEGIN})
         try{
-            const{position,company,jobLocation,jobType,status}=state
-            await authFetch.post('/jobs',{
-                position,company,jobLocation,jobType,status
+            const new_comment = await authFetch.post('/comment/add',comment)
+            dispatch({type:CREATE_COMMENT_SUCCESS,
+                payload:{msg:new_comment}
             })
-            dispatch({type:CREATE_JOB_SUCCESS})
-            dispatch({type:CLEAR_VALUES})
         }catch(error){
             if(error.response.status === 401) return
-                dispatch({type:CREATE_JOB_ERROR,
+                dispatch({type:CREATE_COMMENT_ERROR,
                     payload:{msg:error.response.data.msg}
                     })
         }
-        //dont see the need for clear alert heres
         clearAlert()
     }
 
-    const getJobs = async() => {
-        let url =`/jobs`
-        dispatch({type:GET_JOBS_BEGIN})
-        try{
-            const {data} = await authFetch(url)
-            //console.log('RETURNED',data)
-            const {jobs,totalJobs,numOfPages} = data
+    const getComments = async() => {    
+        dispatch({type:GET_COMMENT_BEGIN})        
+        try{    
+            const allComments = await authFetch.post('/comment/get')
             dispatch({
-                type:GET_JOBS_SUCCESS,
-                payload:{jobs,totalJobs,numOfPages}
+                type:GET_COMMENT_SUCCESS,
+                payload:{data:allComments.data}
             })
         }catch(error){
-            console.log(error.response)
-            //logoutUser()
-        }
-        clearAlert()
-    }
-
-    const setEditJob = (id) =>{
-       // console.log(`set edit job:${id}`)
-        dispatch({type:SET_EDIT_JOB,payload:{id}})
-    }
-
-    const editJob =async() => {
-        dispatch({type:EDIT_JOB_BEGIN})
-        try{
-            const {position,company,jobLocation,jobType,status} = state
-            await authFetch.patch(`/jobs/${state.editJobId}`,{
-                position,company,jobLocation,jobType,status
-            })
-            dispatch({type:EDIT_JOB_SUCCESS})
-            dispatch({type:CLEAR_VALUES})
-        }catch(error){
-            if(error.response.status === 401) return
-            dispatch({type:EDIT_JOB_ERROR,
+            dispatch({type:GET_COMMENT_ERROR,
                 payload:{msg:error.response.data.msg}
-            })
-        }
-        clearAlert()
+                })
+        } 
+        clearAlert()   
     }
 
-    const deleteJob = async(jobId) =>{
-        dispatch({type:DELETE_JOB_BEGIN})
-        try{
-            await authFetch.delete(`/jobs/${jobId}`)
-            getJobs()
+    const updateUserComment = async(input) => {    
+        dispatch({type:UPDATE_COMMENT_BEGIN})
+        try {
+            const new_comment = await authFetch.post('/comment/update',input)
+            dispatch({type:UPDATE_COMMENT_SUCCESS,
+            payload:{msg:new_comment.data.new_comment.text}
+            })
+            
         }catch(error){
-            console.log(error.response)
-            //logoutUser()
+            dispatch({type:UPDATE_COMMENT_ERROR,
+                payload:{msg:error.message}
+                })
+        }
+        clearAlert()  
+    }
+
+   const deleteUserComment = async(commentId) =>{
+        dispatch({type:DELETE_COMMENT_BEGIN})
+        try{
+            await authFetch.post('/comment/delete',commentId)
+            getComments()
+            dispatch({type:DELETE_COMMENT_SUCCESS})   
+        }catch(error){
+            dispatch({type:DELETE_COMMENT_ERROR,
+                payload:{msg:error.message}
+                })
         }
     }
-*/
+
     
 
     return (
@@ -481,11 +480,11 @@ const AppProvider = ({children}) => {
             getMembers,
             deleteNews,
             getBday,
-            //createJob,
-            //getJobs,
-            //setEditJob,
-            //deleteJob,
-            //editJob,
+            createComment,
+            getComments,
+            updateUserComment,
+            updateGlobalIndex,
+            deleteUserComment,
             clearFilters,
             changePage,
             customAlert,
