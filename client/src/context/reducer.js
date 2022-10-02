@@ -11,8 +11,12 @@ import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,
     GET_NEWS_ITEM_BEGIN,GET_NEWS_ITEM_SUCCESS,GET_NEWS_ITEM_ERROR,
     GET_MEMBERS_BEGIN,GET_MEMBERS_ERROR,GET_MEMBERS_SUCCESS,GET_BDAY_SUCCESS,
     ADD_NEW_USER_TO_REGISTER_BEGIN,ADD_NEW_USER_TO_REGISTER_SUCCESS,ADD_NEW_USER_TO_REGISTER_ERROR,
-    MAKE_ADMIN_BEGIN,MAKE_ADMIN_SUCCESS,MAKE_ADMIN_ERROR,
-    DELETE_NEWS_ITEM_BEGIN,DELETE_NEWS_ITEM_ERROR,DELETE_NEWS_ITEM_SUCCESS
+    MAKE_ADMIN_BEGIN,MAKE_ADMIN_SUCCESS,MAKE_ADMIN_ERROR,UPDATE_GLOBAL_COUNT,
+    UPDATE_COMMENT_BEGIN,UPDATE_COMMENT_ERROR,UPDATE_COMMENT_SUCCESS,
+    DELETE_NEWS_ITEM_BEGIN,DELETE_NEWS_ITEM_ERROR,DELETE_NEWS_ITEM_SUCCESS,
+    CREATE_COMMENT_BEGIN,CREATE_COMMENT_ERROR,CREATE_COMMENT_SUCCESS,
+    GET_COMMENT_BEGIN,GET_COMMENT_SUCCESS,GET_COMMENT_ERROR,
+    DELETE_COMMENT_BEGIN,DELETE_COMMENT_ERROR,DELETE_COMMENT_SUCCESS,
 } from "./action"
 import { initialState } from "./appContext"
 
@@ -300,15 +304,6 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
         }
     }
 
-    if (action.type === GET_BDAY_SUCCESS) {
-        return {
-          ...state,
-          totalBday: action.payload.totalBday,
-          bdays: action.payload.bday,
-        }
-      } 
-
-
     if(action.type === EDIT_JOB_ERROR){
         return{...state,
             isLoading:false,
@@ -317,6 +312,15 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
             alertText:action.payload.msg
         }
     }
+
+    if (action.type === GET_BDAY_SUCCESS) {
+        return {
+          ...state,
+          totalBday: action.payload.totalBday,
+          bdays: action.payload.bday,
+        }
+      } 
+
 
     if(action.type === ADD_NEW_IMAGE_BEGIN){
         return{...state,isLoading:true}
@@ -458,6 +462,101 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
         }
     }
 
+    if(action.type === CREATE_COMMENT_BEGIN){
+        return{...state,isLoading:true}
+    }
+
+    if(action.type === CREATE_COMMENT_SUCCESS){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'success',
+        alertText:'Comment Added',
+        new_comment: action.payload.msg
+        }
+    }
+
+    if(action.type === CREATE_COMMENT_ERROR){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'danger',
+        alertText:action.payload.msg
+        }
+    }
+
+    if (action.type === GET_COMMENT_BEGIN) {
+        return { ...state, isLoading: true, showAlert: false }
+      }
+      if (action.type === GET_COMMENT_SUCCESS) {
+        return {
+          ...state,
+          isLoading: false,
+          totalComments: action.payload.data,
+        }
+      } 
+
+      if(action.type === GET_COMMENT_ERROR){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'danger',
+        alertText:action.payload.msg
+        }
+    }
+    
+    if(action.type === UPDATE_GLOBAL_COUNT){
+        return{...state,
+        commentIndex:action.payload.msg
+        }
+    }
+
+    if(action.type === UPDATE_COMMENT_BEGIN){
+        return{...state,
+        isLoading:true
+        }
+    }
+
+    if(action.type === UPDATE_COMMENT_SUCCESS){ 
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'success',
+        alertText:'Comment Successfully updated!',
+        new_comment: action.payload.msg
+        }
+    }
+
+    if(action.type === UPDATE_COMMENT_ERROR){
+        return{...state,
+            isLoading:false,
+            showAlert:true,
+            alertType:'danger',
+            alertText:action.payload.msg
+        }
+    }
+
+    if(action.type === DELETE_COMMENT_BEGIN){
+        return{...state,isLoading:true}
+    }
+
+    if(action.type === DELETE_COMMENT_SUCCESS){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'success',
+        alertText:'Successfuly Deleted Comment'
+        }
+    }
+
+    if(action.type === DELETE_COMMENT_ERROR){
+        return{...state,
+            isLoading:false,
+            showAlert:true,
+            alertType:'danger',
+            alertText:action.payload.msg
+        }
+    }
 
     throw new Error(`no such action: ${action.type}`)
 }
