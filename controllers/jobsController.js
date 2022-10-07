@@ -103,7 +103,7 @@ const getAllImages =async(req,res) =>{
 
         // setup pagination
         
-        const numOfImagePage = Math.ceil(urls.length / 10)
+        const numOfImagePage = Math.ceil(urls.length / 7)
 
         res.status(StatusCodes.OK).json({urls,totalUrls:urls.length,numOfImagePage:numOfImagePage})
     } catch(error){
