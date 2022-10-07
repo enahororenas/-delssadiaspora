@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.section`
 .comments {
-    margin-top: 20px;
+    margin-top: 60px;
   }
   
   .comments-title {
