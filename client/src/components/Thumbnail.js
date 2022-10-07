@@ -1,13 +1,12 @@
 import React from 'react'
 import { useAppContext } from '../context/appContext'
 
-const Thumbnail = ({ arr, image, index }) => {
+const Thumbnail = ({ arr,  index }) => {
 
 const {updateGlobalIndex}=useAppContext()
 
 const update =(i)=>{
   updateGlobalIndex(i)
-  image(i)
 }
     return (
     <div>
