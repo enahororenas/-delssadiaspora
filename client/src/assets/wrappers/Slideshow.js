@@ -57,8 +57,11 @@ const Wrapper = styled.section`
   max-width: 100%;
   width: 100%;
 }
-
-.actions { margin-left: 10%;}
+.lowerBody{ margin-left: 10%;}
+.actions { 
+  margin-left: 10%;
+}
+.pageControl{margin-top:10%}
 
 .mainImg {
     width:  450px;
