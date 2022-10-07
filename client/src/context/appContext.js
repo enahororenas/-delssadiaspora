@@ -6,7 +6,7 @@ import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,DISPLAY_CUSTOM_A
     ADD_NEW_IMAGE_BEGIN,ADD_NEW_IMAGE_SUCCESS,ADD_NEW_IMAGE_ERROR,
     ADD_NEWS_ITEM_BEGIN,ADD_NEWS_ITEM_SUCCESS,ADD_NEWS_ITEM_ERROR,
     CREATE_COMMENT_BEGIN,CREATE_COMMENT_ERROR,CREATE_COMMENT_SUCCESS,
-    GET_COMMENT_BEGIN,GET_COMMENT_SUCCESS,GET_COMMENT_ERROR,
+    GET_COMMENT_BEGIN,GET_COMMENT_SUCCESS,GET_COMMENT_ERROR,CHANGE_IMAGE_PAGE,
     UPDATE_COMMENT_BEGIN,UPDATE_COMMENT_ERROR,UPDATE_COMMENT_SUCCESS,
     UPDATE_USER_IMAGE_BEGIN,UPDATE_USER_IMAGE_SUCCESS,UPDATE_USER_IMAGE_ERROR,
     GET_IMAGES_BEGIN,GET_IMAGES_SUCCESS,GET_IMAGES_ERROR,GET_BDAY_SUCCESS,
@@ -52,6 +52,8 @@ const initialState = {
     totalNews:1,
     numOfPages:1,
     page:1,
+    imagePage:1,
+    numOfImagePage:1,
     public_id:'',
     image:'',
     position:'',
@@ -224,6 +226,10 @@ const AppProvider = ({children}) => {
         dispatch({ type: CHANGE_PAGE, payload: { page } })
       }
 
+      const changeImagePage = (page) => {
+        dispatch({ type: CHANGE_IMAGE_PAGE, payload: { page } })
+      }
+
     const clearValues = () => {
         dispatch({type:CLEAR_VALUES})
     }
@@ -264,11 +270,11 @@ const AppProvider = ({children}) => {
         dispatch({type:GET_IMAGES_BEGIN})        
         try{
             const {data} = await authFetch.get(url)
-            //console.log('RETURNED',data)
-            const {urls,totalUrls} = data
+            const {urls,totalUrls,numOfImagePage} = data
+            //console.log('RETURNED',numOfImagePage)
             dispatch({
                 type:GET_IMAGES_SUCCESS,
-                payload:{urls,totalUrls}
+                payload:{urls,totalUrls,numOfImagePage}
             })
         }catch(error){
             //console.log(error.response)
@@ -490,6 +496,7 @@ const AppProvider = ({children}) => {
             customAlert,
             addNewUserToDB,
             makeAUserAdmin,
+            changeImagePage,
         }}>{children}</AppContext.Provider>
     )
 }
