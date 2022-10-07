@@ -59,9 +59,10 @@ const Wrapper = styled.section`
 }
 .lowerBody{ margin-left: 10%;}
 .actions { 
+  top:30%;
   margin-left: 10%;
 }
-.pageControl{margin-top:10%}
+.pageControl{margin-top:-10%}
 
 .mainImg {
     width:  450px;
