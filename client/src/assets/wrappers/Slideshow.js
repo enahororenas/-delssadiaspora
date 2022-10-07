@@ -10,17 +10,21 @@ const Wrapper = styled.section`
 }
 
 .mainImg {
-  max-width:100%;
-  max-height:100%;
-  width: auto;
-  height: auto;
+  //max-width:100%;
+  //max-height:100%;
+  
+    width:  750px;
+    height: 700px;
+    object-fit:contain;
+  //width: 50vw;
+  //height: 65vh;
   transition: all 500ms;
 }
 
 .actions {
   position: absolute;
-  top: 50%;
-  width: 100%;
+  top: 55%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
 }
@@ -48,13 +52,19 @@ const Wrapper = styled.section`
 }
 
 @media only screen and (max-width: 998px) {
-    .slideshow {
+  .slideshow {
   position: relative;
   max-width: 100%;
   width: 100%;
-  height: auto;
 }
 
+.actions { margin-left: 10%;}
+
+.mainImg {
+    width:  450px;
+    height: 300px;
+    object-fit:contain;
+}
 
 }
 `
