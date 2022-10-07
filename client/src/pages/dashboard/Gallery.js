@@ -14,7 +14,7 @@ useEffect(()=>{
   getComments()
 },[new_comment])
 
-const itemsPerPage = 10
+const itemsPerPage = 7
 const indexOfLastItem =imagePage * itemsPerPage
 const indexOfFirstItem = indexOfLastItem - itemsPerPage
 const currentItems = urls.slice(indexOfFirstItem,indexOfLastItem)
