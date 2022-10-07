@@ -98,16 +98,17 @@ const getNews =async(req,res) =>{
 
 const getAllImages =async(req,res) =>{
     try{
-        const { resources } = await cloudinary.search
-    .expression('folder:Gallery')
-    .execute();
-    const urls = resources.map((file) => file.secure_url);
-    //console.log('ID',urls)
-    res.status(StatusCodes.OK).json({urls,totalUrls:urls.length})
+        const { resources } = await cloudinary.search.expression('folder:Gallery').execute();
+        const urls = resources.map((file) => file.secure_url);
+
+        // setup pagination
+        
+        const numOfImagePage = Math.ceil(urls.length / 10)
+
+        res.status(StatusCodes.OK).json({urls,totalUrls:urls.length,numOfImagePage:numOfImagePage})
     } catch(error){
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not get all images' });
     }  
-    //res.send('get Images')
 }
 
 const getAllJobs =async(req,res) =>{
