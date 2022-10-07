@@ -3,7 +3,7 @@ import { HiChevronDoubleLeft, HiChevronDoubleRight } from 'react-icons/hi'
 import Wrapper from '../assets/wrappers/PageBtnContainer'
 
 const ImageBtnContainer = () => {
-  const { numOfImagePage, imagePage, changeImagePage } = useAppContext()
+  const { numOfImagePage, imagePage, changeImagePage,updateGlobalIndex } = useAppContext()
  
   const pages = Array.from({ length: numOfImagePage }, (_, index) => {
     return index + 1
@@ -14,6 +14,7 @@ const ImageBtnContainer = () => {
     if (newPage > numOfImagePage) {
       newPage = numOfImagePage
     }
+    updateGlobalIndex(0)
     changeImagePage(newPage)
   }
   const prevPage = () => { 
@@ -21,8 +22,15 @@ const ImageBtnContainer = () => {
     if (newPage < 1) {
       newPage = 1
     }
-    changeImagePage(newPage)
+    updateGlobalIndex(0)
+    changeImagePage(newPage) 
   }
+
+  const directPage = (num) => { 
+    updateGlobalIndex(0)
+    changeImagePage(num) 
+  }
+
   return (
     <Wrapper>
       <button className='prev-btn' onClick={prevPage}>
@@ -36,7 +44,7 @@ const ImageBtnContainer = () => {
               type='button'
               className={pageNumber === imagePage ? 'pageBtn active' : 'pageBtn'}
               key={pageNumber}
-              onClick={() => changeImagePage(pageNumber)}
+              onClick={() => directPage(pageNumber)}
             >
               {pageNumber}
             </button>
