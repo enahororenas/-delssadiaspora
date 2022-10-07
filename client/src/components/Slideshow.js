@@ -1,49 +1,46 @@
-import React,{useState,useEffect} from 'react'
+import React from 'react'
 import Thumbnail from './Thumbnail'
 import Wrapper from '../assets/wrappers/Slideshow'
 import Comments from './Comment/Comments'
 import { useAppContext } from '../context/appContext'
+import ImageBtnContainer from './ImageBtnContainer'
 
 const Slideshow = ({ imgs }) => {
-    const {commentIndex,updateGlobalIndex} = useAppContext()
-    const [index, setIndex] = useState( commentIndex)
-
-    useEffect(() => {
-      setIndex(commentIndex)
-    }, []) 
-  
-    //console.log('CURRENT GLOBAL INDEX',commentIndex,'====',index)
+    const {commentIndex,updateGlobalIndex,numOfImagePage} = useAppContext()
+    
+    //console.log('CURRENT GLOBAL INDEX',commentIndex,'====',imgs.length)
 
     const next = () => {
-      if (index === imgs.length - 1) {
-        setIndex(0)
+      if (commentIndex === imgs.length - 1) {
         updateGlobalIndex(0)
       } else {
-        setIndex(index + 1)
-        updateGlobalIndex(index + 1)
+        updateGlobalIndex(commentIndex + 1)
       }
     }
     const prev = () => {
-      if (index === 0) {
-        setIndex(imgs.length - 1)
+      if (commentIndex=== 0) {
         updateGlobalIndex(imgs.length - 1)
       } else {
-        setIndex(index - 1)
-        updateGlobalIndex(index - 1)
+        updateGlobalIndex(commentIndex - 1)
       }
     }
   
     return (
     <Wrapper>
     <div className="slideshow">
-      <img className="mainImg" src={imgs[index]} alt=''/>
+
+      <img className="mainImg" src={imgs[commentIndex]} alt=''/>
+    
       <div className="actions">
         <button onClick={prev}>👈</button>
         <button onClick={next}>👉</button>
       </div>
-      <Thumbnail arr={imgs} image={setIndex} index={index} />
+      <Thumbnail arr={imgs}  index={commentIndex} />
       <div>
-        <Comments url={imgs[index]}/>
+        {numOfImagePage > 1 && <ImageBtnContainer/>}
+        </div>
+      <div>
+      <Comments url={imgs[commentIndex]}/>
       </div>
     </div>
       </Wrapper>
