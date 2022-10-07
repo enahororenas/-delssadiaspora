@@ -1,4 +1,4 @@
-import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,
+import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,CHANGE_IMAGE_PAGE,
     SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,CLEAR_FILTERS,CHANGE_PAGE,
     UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR,HANDLE_CHANGE,
     CLEAR_VALUES,CREATE_JOB_BEGIN,CREATE_JOB_SUCCESS,CREATE_JOB_ERROR,
@@ -249,6 +249,7 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
           isLoading: false,
           totalUrls:action.payload.totalUrls,
           urls:action.payload.urls,
+          numOfImagePage:action.payload.numOfImagePage
         }
       } 
 
@@ -389,6 +390,10 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
     
     if (action.type === CHANGE_PAGE) {
         return { ...state, page: action.payload.page }
+      }
+
+      if (action.type === CHANGE_IMAGE_PAGE) {
+        return { ...state, imagePage: action.payload.page }
       }
 
       if (action.type === GET_MEMBERS_BEGIN) {
