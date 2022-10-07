@@ -68,6 +68,10 @@ justify-content: left;
 }
 .pageControl{margin-top:-10%}
 
+.thumbDiv{
+  display: flex;
+justify-content: center;
+}
 
 .mainImg {
     width:  450px;
