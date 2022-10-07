@@ -35,11 +35,14 @@ const Slideshow = ({ imgs }) => {
         <button onClick={prev}>👈</button>
         <button onClick={next}>👉</button>
       </div>
-      <Thumbnail arr={imgs}  index={commentIndex} />
       <div>
+      <Thumbnail arr={imgs}  index={commentIndex} />
+      </div>
+      
+      <div className='pageControl'>
         {numOfImagePage > 1 && <ImageBtnContainer/>}
         </div>
-      <div>
+      <div className='lowerBody'>
       <Comments url={imgs[commentIndex]}/>
       </div>
     </div>
