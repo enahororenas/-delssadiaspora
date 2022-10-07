@@ -21,6 +21,10 @@ const Wrapper = styled.section`
   transition: all 500ms;
 }
 
+.thumbDiv{
+  display: flex;
+justify-content: left;
+}
 .actions {
   position: absolute;
   top: 55%;
@@ -63,6 +67,7 @@ const Wrapper = styled.section`
   margin-left: 10%;
 }
 .pageControl{margin-top:-10%}
+
 
 .mainImg {
     width:  450px;
