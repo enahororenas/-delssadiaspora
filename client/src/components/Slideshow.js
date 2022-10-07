@@ -35,7 +35,7 @@ const Slideshow = ({ imgs }) => {
         <button onClick={prev}>👈</button>
         <button onClick={next}>👉</button>
       </div>
-      <div>
+      <div className='thumbDiv'>
       <Thumbnail arr={imgs}  index={commentIndex} />
       </div>
       
