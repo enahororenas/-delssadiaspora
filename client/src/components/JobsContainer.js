@@ -28,12 +28,14 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <div className='dashboard-page'>
-          <div style={{marginLeft:'50px'}}>
-      <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0'}}>DELSSAA DIASPORA MEMBERS</h5>
+        <div >
+          <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0'}}>DELSSAA DIASPORA MEMBERS</h5>
+        </div>
       <div className='jobs'>
-      {members.map((member) => { return <Profilecontainer key={member.id} {...member} /> })}  
+      
+      {members.map((member) => { return <Profilecontainer key={member.id} {...member} /> })}
       </div>
-      </div>
+      
       {numOfPages > 1 && <PageBtnContainer />}
       </div>
       
