@@ -27,6 +27,7 @@ const Wrapper = styled.section`
 .par {
     text-align: justify;
     //text-indent: 2em;
+    max-width: 100%;
 }
 
 
