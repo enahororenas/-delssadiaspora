@@ -1,35 +1,49 @@
 import styled from 'styled-components'
 
 const Wrapper = styled.section`
-.dashboard-page {
-    margin: 0 auto;
-    padding: 0.5rem 0;    
-  }
-  .article-img{
-text-align: justify;
-width: 400px;
-height: 300px;
-}
-.article-img img{
-display: block;
-margin: 0 auto;
-}
-
-.liimg{  
-    margin:20px;
-    width: 100%;
-    height: 100%;
-}
-.f-left {float:left;}
 .h-center{
   text-align:left;
   color: var(--primary-500);
 }
-.newscont{  
+
+.divwrapper {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 20px;
+}
+
+.divwrapper2 {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.imgbdy {
+    float: left;
+    margin: 0 20px 20px 0;
+    width: 400px;
+    height: 100%;
+}
+
+.par {
     text-align: justify;
-    width: 100%;
-    margin-bottom: 20px;
+    //text-indent: 2em;
+}
+
+
+@media only screen and (max-width: 998px) {
+  .divwrapper {
+  width: 100%;
+  height: 50%;
+  margin-bottom: 20px;
     }
 
+    .imgbdy {
+    float: left;
+    margin: 0 20px 20px 0;
+    width: 250px;
+    height: 200px;
+      }
+
+    }   
 `
 export default Wrapper
