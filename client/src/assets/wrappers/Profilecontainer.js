@@ -32,9 +32,9 @@ body {
 }
 
 .card {
-  width: 500px;
+  //width: 500px;
+  //padding: 20px;
   min-height: 100px;
-  padding: 20px;
   border-radius: 3px;
   background-color: white;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -64,7 +64,7 @@ body {
   height: 120px;
 }
 .firstinfo .profileinfo {
-  padding: 0px 20px;
+  padding: 0px 10px;
 }
 .firstinfo .profileinfo h1 {
   font-size: 1.8em;
@@ -119,6 +119,16 @@ body {
     transform: rotate(-30deg);
     top: -24px;
     left: -78px;
+  }
+}
+
+@media (min-width: 992px) {
+  .card {
+  width: 500px;
+  padding: 20px;
+  }
+  .firstinfo .profileinfo {
+  padding: 0px 20px;
   }
 }
 `
