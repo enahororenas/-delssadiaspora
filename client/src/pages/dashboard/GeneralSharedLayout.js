@@ -19,10 +19,8 @@ const GeneralSharedLayout = ({ptext1,ptext2,ptext3,img,top}) => {
             </div> 
             
           <div className='db2'>
-          <p/>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ptext1}<br></br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ptext2} <br></br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ptext3} <br></br>
+          <p className='pwidth'>{ptext1}</p>
+          <p className='pwidth'>{ptext2}</p>
           </div> 
           
         </div>
