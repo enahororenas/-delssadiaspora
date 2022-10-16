@@ -39,7 +39,11 @@ const Wrapper = styled.section`
 .image{
   width: 80%;
   height: 80%;
-  
+}
+.pwidth{ 
+  max-width: 100%;
+  text-indent: 2%;
+  margin-bottom: 0;
 }
 
   .dashboard {
