@@ -7,12 +7,14 @@ import {FaBirthdayCake} from 'react-icons/fa'
 
 
 const Dash = () => {
-  const {user,getBday,bdays,totalBday} = useAppContext()
+  const {user,getBday,bdays,totalBday,monthly,totalMonthly} = useAppContext()
+  const currentMonth = new Date().toISOString().slice(5, 7)
   
   useEffect(()=>{
     getBday()
 },[]);
   
+  //console.log('TOT',totalBday,totalMonthly)
 
   return (  
     <Wrapper>
@@ -35,11 +37,23 @@ const Dash = () => {
           {totalBday > 0 &&
           <div className='dashbirthday'>
           <h1>Birthday{totalBday > 1 && '\'s'}</h1>
-          {bdays.length > 0 && bdays.map((bd, index) => {
+          {bdays.map((bd, index) => {
             return <div key={index}><FaBirthdayCake/> {bd.fname} {bd.lname}'s birthday is today</div>
             })}
         </div>
         }
+
+
+        {totalMonthly > 0 &&
+          <div className='dashbirthday'>
+          <h1>Upcoming Birthday{totalMonthly > 1 && '\'s'}</h1>
+          {monthly.map((bd, index) => {
+            return <div key={index}>{bd.fname} {bd.lname}'s birthday : {currentMonth}-{bd.day}</div>
+            })}
+        </div>
+        }
+
+
         </div>
 
         
