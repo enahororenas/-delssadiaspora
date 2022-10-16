@@ -49,6 +49,8 @@ const initialState = {
     news:[],
     bdays:[],
     totalBday:0,
+    monthly:[],
+    totalMonthly:0,
     totalNews:1,
     numOfPages:1,
     page:1,
@@ -336,13 +338,13 @@ const AppProvider = ({children}) => {
         try{
             const {data} = await authFetch.get(url)
             //console.log('RETURNED',data)
-            const {bday,totalBday} = data
-            {totalBday > 0 &&
+            const {bday,totalBday,monthly,totalMonthly} = data
+    
             dispatch({
                 type:GET_BDAY_SUCCESS,
-                payload:{bday,totalBday}
+                payload:{bday,totalBday,monthly,totalMonthly}
              })
-            }
+        
             
         }catch(error){
         }
