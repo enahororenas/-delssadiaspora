@@ -319,6 +319,8 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
           ...state,
           totalBday: action.payload.totalBday,
           bdays: action.payload.bday,
+          monthly: action.payload.monthly,
+          totalMonthly: action.payload.totalMonthly,
         }
       } 
 
