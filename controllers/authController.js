@@ -128,15 +128,37 @@ const updateUser = async(req,res) => {
 const getBday = async(req,res) => {
     //console.log('GET BDAY SERVER CALLED',req.body)
     const dt = new Date();
-    const currentDate = dt.toISOString().slice(0, 10)
-    const allBday = await User.find({ bday: { $eq:currentDate } })
-    if(allBday.length > 0){
+    const currentDate = dt.toISOString().slice(5, 10)
+    const now = parseInt(currentDate.split("-").pop())
+    const currentMonth = dt.toISOString().slice(5, 7)
+
+    //console.log('CM',currentDate,'==',currentMonth)
+
+    try {
+    const allBday = await User.find({ bday: new RegExp(currentDate+'$') })
+    const allMonth = await User.find({ bday: new RegExp('-'+currentMonth+'-') })
+    const monthly = []
+    if(allMonth.length > 0){
+        for (const niv in allMonth){ 
+            const day = parseInt(allMonth[niv].bday.split("-").pop())
+            
+            if(day > now){
+                monthly.push({
+                    fname:allMonth[niv].fname,
+                    lname:allMonth[niv].lname,
+                    day:day
+                }) 
+            }
+        }
+    }    
+
         const bday = allBday.map((file) => ({
             fname:file.fname,
             lname:file.lname
         }))
-        res.status(StatusCodes.OK).json({bday,totalBday:allBday.length})
-    } else {res.status(StatusCodes.OK).json({bday:'NONE',totalBday:0})}
+        
+        res.status(StatusCodes.OK).json({bday,totalBday:allBday.length,monthly,totalMonthly:monthly.length})  
+    } catch(error) {res.status(StatusCodes.OK).json({bday:[],totalBday:0})}
     
     //res.send('User OKRRR')
 }
