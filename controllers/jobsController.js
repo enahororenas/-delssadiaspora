@@ -6,6 +6,7 @@ import {BadRequestError, NotFoundError} from '../errors/index.js'
 import checkPermissions from "../utils/checkPermissions.js"
 import contactEmail from '../utils/emailSetup.js'
 import cloudinary from '../utils/cloudinarySetup.js'
+import  nodemailer from 'nodemailer'
 
 const createComment =async(req,res) =>{
     const{user,text,parentId,url} = req.body
@@ -188,6 +189,37 @@ const sendEmail =async(req,res) =>{
     }
 
     const name = fname+' '+lname
+    try{
+    const client = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: "dellssaadiaspora@gmail.com",
+            pass: process.env.GMAILPASSWORD
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    });
+    
+    await client.sendMail(
+        {
+            from: name,
+            to: "dellssaadiaspora@gmail.com",
+            subject: "DELSSAA DIASPORA CONTACT US FORM",
+            text: `
+            Name: ${name}
+            Email: ${email}
+            Message: ${message}
+            `
+        }
+    )
+    res.status(StatusCodes.OK).json({msg:'Email Sent Successfuly to DELLSSAA'})
+    } catch(error){
+        res.status(StatusCodes.OK).json({msg:error})
+    }
+
+    
+    /*
     const mail = {
       from: name,
       to: "dellssaadiaspora@gmail.com",
@@ -205,7 +237,8 @@ const sendEmail =async(req,res) =>{
             res.status(StatusCodes.OK).json({msg:'Email Sent Successfuly to DELLSSAA'})
         }
       });
-      //res.send('show stats')
+    */
+    //res.send('show stats')
 }
 
 
