@@ -80,5 +80,13 @@ justify-content: center;
 }
 
 }
+
+@media only screen and (min-width: 450px) and (max-width: 650px){
+  .mainImg {
+    width:  750px;
+    height: 600px;
+    object-fit:contain;
+}
+}
 `
 export default Wrapper
