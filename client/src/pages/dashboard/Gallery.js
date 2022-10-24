@@ -25,7 +25,7 @@ if(isLoading){return <Loading center/>}
     <Wrapper>
         <div className='navcontrol'><Gallerynavbar top='Gallery'/></div>
         
-        <div className="imageparent"> 
+        <div > 
           {/*{urls.length === 0 && <h1 style={{fontWeight:'bold'}}>No Image Available</h1> }*/}
           {currentItems.length !== 0 && <Slideshow imgs={currentItems}/> } 
        </div>
