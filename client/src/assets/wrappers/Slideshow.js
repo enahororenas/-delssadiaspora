@@ -81,7 +81,7 @@ justify-content: center;
 
 }
 
-@media only screen and (min-width: 450px) and (max-width: 650px){
+@media only screen and (min-width: 650px) and (max-width: 999px){
   .mainImg {
     width:  750px;
     height: 600px;
