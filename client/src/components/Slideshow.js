@@ -24,17 +24,21 @@ const Slideshow = ({ imgs }) => {
         updateGlobalIndex(commentIndex - 1)
       }
     }
-  
+    
     return (
     <Wrapper>
     <div className="slideshow">
 
+      <div className='allimgp'>
       <img className="mainImg" src={imgs[commentIndex]} alt=''/>
-    
+      
       <div className="actions">
-        <button onClick={prev}>👈</button>
-        <button onClick={next}>👉</button>
+        <button className='leftbtn' onClick={prev}>👈</button>
+        <button className='rightbtn' onClick={next}>👉</button>
       </div>
+
+      </div>
+      
       <div className='thumbDiv'>
       <Thumbnail arr={imgs}  index={commentIndex} />
       </div>
