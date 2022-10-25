@@ -1,4 +1,5 @@
 import News from "../models/News.js"
+import Exco from '../models/Executive.js'
 import User from '../models/User.js'
 import Comment from "../models/Comment.js"
 import { StatusCodes } from 'http-status-codes'
@@ -112,10 +113,17 @@ const getAllImages =async(req,res) =>{
     }  
 }
 
-const getAllJobs =async(req,res) =>{
-    const jobs = await Job.find({createdBy:req.user.userId})
-    res.status(StatusCodes.OK)
-    .json({jobs,totalJobs:jobs.length,numOfPages:1})
+const getAllExco =async(req,res) =>{
+    try {const response = await Exco.find({})
+    const excoMembers = response.map((mem) => ({
+        name: mem.name,
+        url: mem.url,
+        title:mem.title,
+    }))
+    res.status(StatusCodes.OK).json({excoMembers,totalExco:excoMembers.length})
+    }catch(error){
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: error.message });
+    }
 }
 
 
@@ -241,6 +249,30 @@ const sendEmail =async(req,res) =>{
     //res.send('show stats')
 }
 
+const addLeader = async(req,res) => {
+    const {Title,Name,image} = req.body
+    if(!Title || !Name || !image){ throw new BadRequestError('Please provide all values')}
+    
+    try {
+        const exist = await Exco.findOne({title:Title})
+        if(exist) {
+            const del_response = await cloudinary.uploader.destroy(exist.public_id)
+            await exist.remove()
+        }    
+    const response = await cloudinary.uploader.upload(image,{  upload_preset: process.env.CLOUDINARY_EXCO})
+    const item = {
+        title: Title,
+        name : Name,
+        url : response.secure_url,
+        createdBy:req.user.userId,
+        public_id: response.public_id,
+    }
+    const leader = await Exco.create(item)
+    res.status(StatusCodes.CREATED).json({leader})
+    }  catch(error){ 
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Could not Add Exco Member' });
+    }
+}
 
 const addImage = async(req,res) => {
     //console.log('INCOMING',req.body)
@@ -289,5 +321,5 @@ const addNews = async(req,res) => {
     }
 //res.send('News Item Added')
 }
-export {createComment,getAllJobs, updateJob, updateComment,sendEmail,deleteComment
+export {createComment,getAllExco, updateJob, updateComment,sendEmail,deleteComment,addLeader
     ,addImage,getAllImages,addNews,getNews,getAllMembers,deleteNews,getComments}
