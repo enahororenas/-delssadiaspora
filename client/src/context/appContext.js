@@ -15,7 +15,8 @@ import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,DISPLAY_CUSTOM_A
     ADD_NEW_USER_TO_REGISTER_BEGIN,ADD_NEW_USER_TO_REGISTER_SUCCESS,ADD_NEW_USER_TO_REGISTER_ERROR,
     MAKE_ADMIN_BEGIN,MAKE_ADMIN_SUCCESS,MAKE_ADMIN_ERROR,
     DELETE_COMMENT_BEGIN,DELETE_COMMENT_ERROR,DELETE_COMMENT_SUCCESS,
-    DELETE_NEWS_ITEM_BEGIN,DELETE_NEWS_ITEM_ERROR,DELETE_NEWS_ITEM_SUCCESS
+    DELETE_NEWS_ITEM_BEGIN,DELETE_NEWS_ITEM_ERROR,DELETE_NEWS_ITEM_SUCCESS,
+    ADD_NEW_EXCO_BEGIN,ADD_NEW_EXCO_ERROR,ADD_NEW_EXCO_SUCCESS, GET_EXCO_BEGIN, GET_EXCO_SUCCESS, GET_EXCO_ERROR,
  } from "./action";
 import reducer from "./reducer";
 import axios from 'axios'
@@ -70,6 +71,8 @@ const initialState = {
     new_comment:'',
     totalComments:[],
     commentIndex:0,
+    excoMembers:[],
+    totalExco:0,
 }
 
 const AppContext = React.createContext()
@@ -252,6 +255,36 @@ const AppProvider = ({children}) => {
         clearAlert()
     }
 
+
+    const addLeader = async(input) => {
+        dispatch({type:ADD_NEW_EXCO_BEGIN})
+        try {
+            await authFetch.post('/gallery/addleader',input)
+            dispatch({type:ADD_NEW_EXCO_SUCCESS})    
+        }catch(error){
+            dispatch({type:ADD_NEW_EXCO_ERROR,
+                payload:{msg:error.response.data.msg}
+                })
+        }
+        clearAlert()
+    }
+
+    const getExco = async() => {
+        dispatch({type:GET_EXCO_BEGIN})
+        let url =`/gallery/addleader`  
+        try { 
+        const {data} = await authFetch.get(url)
+        const{excoMembers,totalExco} = data
+        dispatch({type:GET_EXCO_SUCCESS,
+            payload:{excoMembers,totalExco}
+        })    
+        }catch(error){
+            dispatch({type:GET_EXCO_ERROR,
+                payload:{msg:error.response.data.msg}
+                })
+        }
+        clearAlert()
+    }    
 
     const addImage = async(input) => {
         dispatch({type:ADD_NEW_IMAGE_BEGIN})
@@ -499,6 +532,8 @@ const AppProvider = ({children}) => {
             addNewUserToDB,
             makeAUserAdmin,
             changeImagePage,
+            addLeader,
+            getExco,
         }}>{children}</AppContext.Provider>
     )
 }
