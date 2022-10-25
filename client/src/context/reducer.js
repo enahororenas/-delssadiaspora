@@ -17,6 +17,8 @@ import { DISPLAY_ALERT, CLEAR_ALERT,TOGGLE_SIDE_BAR,LOGOUT_USER,CHANGE_IMAGE_PAG
     CREATE_COMMENT_BEGIN,CREATE_COMMENT_ERROR,CREATE_COMMENT_SUCCESS,
     GET_COMMENT_BEGIN,GET_COMMENT_SUCCESS,GET_COMMENT_ERROR,
     DELETE_COMMENT_BEGIN,DELETE_COMMENT_ERROR,DELETE_COMMENT_SUCCESS,
+    ADD_NEW_EXCO_BEGIN,ADD_NEW_EXCO_ERROR,ADD_NEW_EXCO_SUCCESS,
+    GET_EXCO_BEGIN,GET_EXCO_ERROR,GET_EXCO_SUCCESS,
 } from "./action"
 import { initialState } from "./appContext"
 
@@ -562,6 +564,49 @@ if(action.type === UPDATE_USER_IMAGE_ERROR){
             showAlert:true,
             alertType:'danger',
             alertText:action.payload.msg
+        }
+    }
+
+    if(action.type === ADD_NEW_EXCO_BEGIN){
+        return{...state,isLoading:true}
+    }
+
+    if(action.type === ADD_NEW_EXCO_SUCCESS){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'success',
+        alertText:'New Exco Member Added'
+        }
+    }
+
+    if(action.type === ADD_NEW_EXCO_ERROR){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'danger',
+        alertText:action.payload.msg
+        }
+    }
+
+    if (action.type === GET_EXCO_BEGIN) {
+        return { ...state, isLoading: true, showAlert: false }
+      }
+      if (action.type === GET_EXCO_SUCCESS) {
+        return {
+          ...state,
+          isLoading: false,
+          excoMembers:action.payload.excoMembers,
+          totalExco: action.payload.totalExco,
+        }
+      } 
+
+      if(action.type === GET_EXCO_ERROR){
+        return{...state,
+        isLoading:false,
+        showAlert:true,
+        alertType:'danger',
+        alertText:action.payload.msg
         }
     }
 
