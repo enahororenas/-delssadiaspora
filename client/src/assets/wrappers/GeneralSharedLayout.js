@@ -55,6 +55,16 @@ const Wrapper = styled.section`
     margin: 0 auto;
     padding: 2rem 0;
   }
+
+  .center_preview {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 45%;
+  height: 35%;
+}
+
+
   @media (min-width: 992px) {
     .dashboard {
       grid-template-columns: auto 1fr;
