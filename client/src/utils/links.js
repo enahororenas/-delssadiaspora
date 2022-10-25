@@ -14,6 +14,7 @@ import {IoIosPeople} from 'react-icons/io'
         {id:5,text:'Home',path:'/user',icon:<FaHome/>},
         {id:6,text:'Gallery',path:'/gallery',icon:<ImFilePicture/>},
         {id:7,text:'Members',path:'/members',icon:<IoIosPeople/>},
+        {id:8,text:'Executive Committee',path:'/exco',icon:<IoIosPeople/>},
             ]
         
 export default links
