@@ -20,6 +20,8 @@ import {FaEdit} from 'react-icons/fa'
         {id:9,text:'Add Image',path:'/addimage',icon:<ImFilePicture/>},
         {id:10,text:'Add User/Admin',path:'/adduser',icon:<FaEdit/>},
         {id:11,text:'Delete News Article',path:'/deletenews',icon:<ImNewspaper/>},
+        {id:12,text:'Executive Committee',path:'/exco',icon:<IoIosPeople/>},
+        {id:13,text:'Add Executive Member',path:'/addexec',icon:<ImFilePicture/>},
     ]
         
 export default adminlinks
