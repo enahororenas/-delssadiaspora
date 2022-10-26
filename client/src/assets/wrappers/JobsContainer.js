@@ -16,13 +16,14 @@ const Wrapper = styled.section`
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
+    margin-left: 20px;
   }
   @media (min-width: 992px) {
     .jobs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      //margin-left: 40px;
+      margin-left: 40px;
     }
   }
 `
