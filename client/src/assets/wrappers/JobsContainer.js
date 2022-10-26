@@ -22,7 +22,7 @@ const Wrapper = styled.section`
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      margin-left: 40px;
+      //margin-left: 40px;
     }
   }
 `
