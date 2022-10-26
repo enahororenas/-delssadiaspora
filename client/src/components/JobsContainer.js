@@ -4,6 +4,7 @@ import Loading from './Loading'
 import Profilecontainer from './Profilecontainer'
 import Wrapper from '../assets/wrappers/JobsContainer'
 import PageBtnContainer from './PageBtnContainer'
+import Membercontainer from './Membercontainer'
 
 const JobsContainer = () => {
   const {getMembers,members,isLoading,page,search,numOfPages,totalMembers} = useAppContext()
@@ -29,11 +30,11 @@ const JobsContainer = () => {
     <Wrapper>
       <div className='dashboard-page'>
         <div >
-          <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0'}}>DELSSAA DIASPORA MEMBERS</h5>
+          <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0',fontWeight:'bold',color:'#191970'}}>DELSSAA DIASPORA MEMBERS</h5>
         </div>
       <div className='jobs'>
       
-      {members.map((member) => { return <Profilecontainer key={member.id} {...member} /> })}
+      {members.map((member) => { return <Membercontainer key={member.id} {...member} /> })}
       </div>
       
       {numOfPages > 1 && <PageBtnContainer />}
