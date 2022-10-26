@@ -23,7 +23,7 @@ const Wrapper = styled.aside`
     background: var(--white);
     //width: var(--fluid-width);
     width: fit-content;
-    height: 95vh;
+    height: fit-content;
     border-radius: var(--borderRadius);
     padding: 4rem 2rem;
     position: relative;
