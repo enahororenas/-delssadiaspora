@@ -13,19 +13,23 @@ const Membercontainer = ({fname,lname,email,image,location,yog,occupation,house}
     <div>
     <Fade bottom>
         <div className="content">
-            <div className='team-members-item'>
-                <img src={image}/>
+            <div className='team-members-item image-container'>
+                <img src={image} alt=''/>
             </div>
         
         <div className='lower'>
             <h3 className="username">{name}</h3>
            <div className='remain'>
-                <div style={{margin:'10px'}}>
-                    <JobInfo icon={<MdEmail />} text={email}/>
-                    <JobInfo icon={<FaCalendar />} text={yog} />
-                    <JobInfo icon={<FaLocationArrow />} text={location} />
-                    <JobInfo icon={<FaHouseUser />} text={house} />
-                    <JobInfo icon={<FaBriefcase />} text={occupation} />
+                <div className='details'>
+                    <p className='text'><MdEmail />&emsp;{email}</p>
+                    
+                    <p className='text'><FaCalendar/>&emsp;{yog}</p>
+                    <p className='text'><FaLocationArrow />&emsp;{location}</p>
+                    <p className='text'><FaHouseUser />&emsp; {house}</p>
+                    <p className='text'><FaBriefcase />&emsp;{occupation}</p>
+
+                    {/*<JobInfo icon={<FaBriefcase />} text={occupation} />*/}
+                    
             </div>
             </div> 
         </div>        
