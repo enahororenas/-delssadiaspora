@@ -2,7 +2,8 @@ import React,{useEffect} from 'react'
 import {Gallerynavbar} from '../../components'
 import Wrapper from '../../assets/wrappers/Leadership'
 import {VerticalTimeline,VerticalTimelineElement} from "react-vertical-timeline-component";
-import "../../assets/css/style.min.css";
+//import "../../assets/css/style.min.css";
+import "react-vertical-timeline-component/style.min.css";
 import { useAppContext } from '../../context/appContext'
 import { FaGraduationCap } from "react-icons/fa";
 
