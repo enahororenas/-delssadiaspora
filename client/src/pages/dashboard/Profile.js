@@ -1,8 +1,9 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import { FormRow,Alert } from '../../components'
-import Wrapper from '../../assets/wrappers/DashboardFormPage'
+import Wrapper from '../../assets/wrappers/Profile'
 import { useAppContext } from '../../context/appContext'
-import { useNavigate } from 'react-router-dom'
+//import { useNavigate } from 'react-router-dom'
+import {Gallerynavbar} from '../../components'
 
 const Profile = () => {
   const {user,showAlert,displayAlert,updateUser,isLoading,customAlert,updateUsersImage} = useAppContext()
@@ -11,7 +12,7 @@ const Profile = () => {
   const [selectedFile, setSelectedFile] = useState('');
   const [profile_pic, setImage ] = useState('');
 
-  const [backB, setBackB] = useState('');
+  //const [backB, setBackB] = useState('');
 
   const [email,setEmail] = useState(user.email||'')
   const [lname,setLastName] = useState(user.lname||'')
@@ -31,11 +32,12 @@ const Profile = () => {
   const dt = new Date();
   const currentDate = dt.toISOString().slice(0, 10)
 
+ /* 
   const navigate = useNavigate()
   useEffect(() => {
     if(backB === 'move'){navigate('/user')}
   },[backB,navigate])
-  
+  */
 
 
   const handleFileInputChange = (e) => {
@@ -82,15 +84,15 @@ const Profile = () => {
 
   return (
     <Wrapper>
-
+        <div className='navcontrol'><Gallerynavbar top='Edit Your Profile'/></div>
       
-        <button className='btn btn-block' type='submit' disabled={isLoading}
+        {/*<button className='btn btn-block' type='submit' disabled={isLoading}
         onClick={(e)=> setBackB('move')} style={{ marginBottom:'20px',width:'fit-content'}}>
           {isLoading?'Please Wait.....':'BACK TO DASHBOARD'}
-        </button>
+        </button>*/}
 
       <form className='form' onSubmit={handleSubmit}>
-      <h3 className='halign'>Edit Your Profile</h3>
+      {/*<h3 className='halign'>Edit Your Profile</h3>*/}
       {showAlert && <Alert/>}
       <div className='form-center'>
         <FormRow type='text' labelText='First Name' name='fname' value={fname} 
@@ -161,7 +163,6 @@ const Profile = () => {
                 />
             )}  
       </div>
-
     </Wrapper>
     
   )
