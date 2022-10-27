@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const Gallerynavbar = ({top}) => {
-    const {toggleSidebar,logoutUser,user} = useAppContext()
+    const {logoutUser,user} = useAppContext()
     const [showLogout,setShowLogout] = useState(false)
     const navigate = useNavigate()
   return (
