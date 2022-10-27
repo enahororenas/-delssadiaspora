@@ -10,7 +10,7 @@ const Comment = ({comment,replies,setActiveComment,activeComment,updateComment,d
     const isEditing = activeComment &&  activeComment.id === comment._id && activeComment.type === "editing";
     const isReplying = activeComment &&  activeComment.id === comment._id && activeComment.type === "replying";
   
-    const canReply = Boolean(currentUserId);
+    const canReply = !comment.parentId;
     const canDelete = currentUserId === comment.userId 
     const canEdit = currentUserId === comment.userId 
     const replyId = parentId ? parentId : comment._id;
