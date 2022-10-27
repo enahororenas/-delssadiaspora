@@ -2,7 +2,8 @@ import React, {useState,useEffect} from 'react'
 import { SearchContainer,JobsContainer} from '../../components'
 import { useAppContext } from '../../context/appContext'
 import { useNavigate } from 'react-router-dom'
-
+import {FaHome} from 'react-icons/fa'
+import Wrapper from '../../assets/wrappers/Members'
 
 const Members = () => {
   const [backB, setBackB] = useState('');
@@ -16,14 +17,14 @@ const Members = () => {
   
 
   return (
-    <>
-    <button className='btn btn-block' type='submit' disabled={isLoading} 
-     onClick={(e)=> setBackB('move')} style={{ margin:'20px',height:'60px',width:'fit-content',float:'right'}}>
-      {isLoading?'Please Wait.....':'DASHBOARD'}
+    <Wrapper>
+    <button className='btn btn-block homebtn' type='submit' disabled={isLoading} 
+     onClick={(e)=> setBackB('move')}>
+      {isLoading?'Please Wait.....':<FaHome />}
      </button>
      <SearchContainer/>
      <JobsContainer />
-    </>
+     </Wrapper>
   )
 }
 
