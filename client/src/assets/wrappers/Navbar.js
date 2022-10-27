@@ -72,6 +72,10 @@ const Wrapper = styled.nav`
     position: sticky;
     top: 0;
 
+    .toggle-btn {
+    font-size: 2.5rem;
+    }
+
     .nav-center {
       width: 90%;
     }
