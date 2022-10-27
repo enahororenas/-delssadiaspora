@@ -9,6 +9,11 @@ const Wrapper = styled.article`
     font-size: 30px;
   }
 
+  @media (max-width: 992px) {
+  .textwait{
+    font-size: medium;
+    }
+  }  
   @media (min-width: 992px) {
     .homebtn{
       font-size: 40px;
