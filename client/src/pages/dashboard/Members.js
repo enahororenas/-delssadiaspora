@@ -20,7 +20,7 @@ const Members = () => {
     <Wrapper>
     <button className='btn btn-block homebtn' type='submit' disabled={isLoading} 
      onClick={(e)=> setBackB('move')}>
-      {isLoading?'Please Wait.....':<FaHome />}
+      {isLoading?<div className='textwait'>Please Wait.....</div>:<FaHome/>}
      </button>
      <SearchContainer/>
      <JobsContainer />
