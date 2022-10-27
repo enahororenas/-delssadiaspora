@@ -6,73 +6,46 @@ const Wrapper = styled.section`
     width: 300px;
     height: 300px;
     border-radius: 50px;
-    background: linear-gradient(145deg,  #b74cc9);
+    background: linear-gradient(145deg, #9a40a9, #b74cc9);
     box-shadow:  20px 20px 60px var(--primary-500),-20px -20px 60px var(--primary-500);
     border: none;
 }
 
-.form {
-    margin: 10px;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    max-width: 100%;
-    width: 100%;
-  }
-  .form-row {
-    margin-bottom: 0;
-  }
-  .form-center {
-    display: grid;
-    row-gap: 0.5rem;
-    margin-top: 20px;
-  }
-  .form-center button {
-    align-self: end;
-    height: 35px;
-    margin-top: 1rem;
-  }
+.tab1 {
+            tab-size: 2;
+        }
 
 .db1 {
       display: grid;
       place-items: center;
       //background-color: #2196F3;
-      margin-bottom: 50px;
+     // margin-bottom: 50px;
     }
 
-   .db2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background-color: #2196F3;
+    .db2 {
+      display: grid;
+      margin-left:20px;
+    }
+
+  .parent_div {
+  width: 100%;
   }
-.pheader{
-  align-items: center;
+  .child_div{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+ }
+
+.image{
+  width: 80%;
+  height: 80%;
 }
-  .db3{
-    margin-left: 20px;
-  }
-  .btncover{
-    margin:20px;
-    margin-bottom: 0px;
-    display: flex;
-  justify-content: center;
-  position: relative;
-  }
-  .btn {
-    width: fit-content;
-    padding: 10px;
-    margin:10px;
-  }
-  .btnpos{
-    position: absolute;
-    left: 0;
-  }
-  .member-btn {
-    cursor: pointer;
-    font-size: larger;
-    font-weight: bold;
-    letter-spacing: var(--letterSpacing);
-  }
+.pwidth{ 
+  max-width: 100%;
+  text-indent: 2%;
+  margin-bottom: 0;
+}
+
   .dashboard {
     display: grid;
     grid-template-columns: 1fr;
@@ -82,12 +55,29 @@ const Wrapper = styled.section`
     margin: 0 auto;
     padding: 2rem 0;
   }
+
+  .center_preview {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 45%;
+  height: 35%;
+}
+
+.btntoggle{
+  margin-left:10px;
+  margin-top:30px;
+}
+
   @media (min-width: 992px) {
     .dashboard {
       grid-template-columns: auto 1fr;
     }
     .dashboard-page {
       width: 90%;
+    }
+    .btntoggle{
+    margin-left:70px;
     }
   }
 `
