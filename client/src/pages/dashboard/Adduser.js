@@ -1,7 +1,6 @@
 import React,{ useState } from 'react'
 import { FormRow,Alert } from '../../components'
-//import Wrapper from '../../assets/wrappers/Adduser'
-import Wrapper from '../../assets/wrappers/GeneralSharedLayout'
+import Wrapper from '../../assets/wrappers/Adduser'
 import {Navbar,BigSidebar,SmallSidebar} from '../../components'
 import { useAppContext} from '../../context/appContext'
 
@@ -49,8 +48,8 @@ const Adduser = () => {
           <div >
           </div>
           <div className='btncover'>
-            
-            <button type="button" onClick={toggleMember} className="btn btnpos" style={{marginLeft:'70px',marginTop:'30px'}}>
+          
+            <button type="button" onClick={toggleMember} className="btn btnpos btntoggle" >
           {values.addToDB ? 'Make Admin':'Add new user'}
           </button>
           
