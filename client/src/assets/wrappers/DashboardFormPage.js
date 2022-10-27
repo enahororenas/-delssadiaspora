@@ -9,9 +9,7 @@ const Wrapper = styled.section`
   h3 {
     margin-top: 0;
   }
-  .halign{
-    text-align: center;
-  }
+
   .form {
     margin: 0;
     border-radius: 0;
@@ -56,6 +54,9 @@ const Wrapper = styled.section`
     }
     .btn-container {
       margin-top: 0;
+    }
+    .halign{
+    text-align: center;
     }
   }
   @media (min-width: 1120px) {
