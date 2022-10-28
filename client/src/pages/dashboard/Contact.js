@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
-import Wrapper from '../../assets/wrappers/GeneralSharedLayout'
+import Wrapper from '../../assets/wrappers/Contactus'
 import {Navbar,BigSidebar,SmallSidebar} from '../../components'
 import { FormRow,Alert } from '../../components'
 import { useAppContext } from '../../context/appContext'
+import {FaYoutube,FaInstagram} from 'react-icons/fa'
 
 const initialState = {
     fname:'',
@@ -44,7 +45,7 @@ const Contact = () => {
             <BigSidebar/>
             <div>
               <Navbar top ='Contact Us'/>
-              <div className='dashboard-page'>
+              <div>
               
 
               <form className='form' onSubmit={handleSubmit}>
@@ -81,6 +82,22 @@ const Contact = () => {
 
       </div>
       </form>
+
+      <div className="social-container">
+        <h4 className='social-caption'>Follow us on Social Media</h4>
+        <a href="https://www.youtube.com/channel/UCY8XOxQYGyyJarpNME4cnxg"
+        className="youtube social">
+        <FaYoutube size={40}/>
+          </a>
+
+        <a href="https://www.instagram.com/delssaa_diaspora/"
+        className="instagram social">
+        <FaInstagram size={40}/>
+          </a>
+          
+        </div>
+
+
               </div>
             </div>
           </main>
