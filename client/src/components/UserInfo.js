@@ -1,5 +1,5 @@
 import React from 'react'
-import Wrapper from '../assets/wrappers/userProfile'
+import Wrapper from '../assets/wrappers/Userinfo'
 
 const UserInfo = ({field,topElement,bottomElement}) => {
   return (
