@@ -12,15 +12,12 @@ const SmallSidebar = () => {
     <Wrapper>
         <div className={showSidebar?'sidebar-container show-sidebar':'sidebar-container'}> 
         <div className='content'>
-            <button
-            type='button'
-            className='close-btn'
-            onClick={toggleSidebar}
-            >
-                <FaTimes/>
-            </button>
+            
             {/*<header><Logo/></header>*/}
-            <NavLinks toggleSidebar={toggleSidebar}/>
+            <div style={{paddingTop:'2rem'}}>
+            <button type='button' className='close-btn' onClick={toggleSidebar}><FaTimes/></button>
+              <NavLinks toggleSidebar={toggleSidebar}/></div>
+            
         </div>
         </div>
     </Wrapper>
