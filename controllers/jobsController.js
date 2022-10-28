@@ -9,23 +9,60 @@ import contactEmail from '../utils/emailSetup.js'
 import cloudinary from '../utils/cloudinarySetup.js'
 import  nodemailer from 'nodemailer'
 
+const notifyEmail =async(email,message,username) =>{
+        const client = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "dellssaadiaspora@gmail.com",
+                pass: process.env.GMAILPASSWORD
+            },
+            tls: {rejectUnauthorized: false}
+        });
+        
+        client.sendMail(
+            {
+                from: username,
+                to: email,
+                subject: username +" replied your comment",
+                text: `
+                Name: ${username}
+                Response: ${message}
+                `
+            }
+        )
+}    
+
 const createComment =async(req,res) =>{
     const{user,text,parentId,url} = req.body
     if(!text||!url){
         throw new BadRequestError('Please provide all values')
     }
+
     const username = user.fname +'_'+user.lname
     const userId = user._id
     if(parentId){
-        const child = await Comment.findOne({_id:parentId})
-        if(child.parentId){
-            throw new BadRequestError('Can only reply to a parent comment')
-        }
+        const parent = await Comment.findOne({_id:parentId})
+        if(parent){
+            const userToEmail = await User.findOne({_id:parent.userId})
+            if(userToEmail){
+                notifyEmail(userToEmail.email,text,username)
+            }
+        }   
     }
+
     const new_comment = await Comment.create({username,userId,text,url,parentId})
-    res.status(StatusCodes.CREATED).json({new_comment})
-    //res.send('MOBY')    
+    res.status(StatusCodes.CREATED).json({new_comment}) 
+   // res.send('MOBY')    
 }
+
+const updateComment =async(req,res) =>{
+    const{text,id} = req.body
+    const old_comment = await Comment.findOne({_id:id})
+    if(!old_comment){throw new NotFoundError('Existing Comment Not Found')}
+    const new_comment = await Comment.findOneAndUpdate({_id:id},{text})
+    res.status(StatusCodes.CREATED).json({new_comment})    
+}
+
 
 const getComments =async(req,res) =>{
     //console.log('REQ',req.body)
@@ -180,13 +217,6 @@ const updateJob =async(req,res) =>{
     res.status(StatusCodes.CREATED).json({updatedJob})
 }
 
-const updateComment =async(req,res) =>{
-    const{text,id} = req.body
-    const old_comment = await Comment.findOne({_id:id})
-    if(!old_comment){throw new NotFoundError('Existing Comment Not Found')}
-    const new_comment = await Comment.findOneAndUpdate({_id:id},{text})
-    res.status(StatusCodes.CREATED).json({new_comment})    
-}
 
 const sendEmail =async(req,res) =>{
     //console.log('SEND EMAIL SERVER',req.body,'AND',contactEmail)
