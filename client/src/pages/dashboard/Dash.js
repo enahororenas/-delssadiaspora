@@ -34,17 +34,17 @@ const Dash = () => {
         
     <div className='disp-grid'>
       <h5 className='gridelem'>Class</h5>
-      <h5 className='nonelem'>{user.yog}</h5>
+      <h5 className='nonelem nonebdy'>{user.yog}</h5>
       <h5 className='gridelem'>House</h5>
-      <h5 className='nonelem'>{user.house}</h5>
+      <h5 className='nonelem nonebdy'>{user.house}</h5>
       <h5 className='gridelem'>Location</h5>
-      <h5 className='nonelem'>{user.location}</h5>
+      <h5 className='nonelem nonebdy'>{user.location}</h5>
       <h5 className='gridelem'>Occupation</h5>
-      <h5 className='nonelem'>{user.occupation}</h5>
+      <h5 className='nonelem nonebdy'>{user.occupation}</h5>
       <h5 className='gridelem'>Favorite Subject</h5>
-      <h5 className='nonelem'>{user.subject}</h5>
+      <h5 className='nonelem nonebdy'>{user.subject}</h5>
       <h5 className='gridelem'>Favorite Teacher</h5>
-      <h5 className='nonelem'>{user.teacher}</h5>
+      <h5 className='nonelem nonebdy'>{user.teacher}</h5>
     </div>
 
 
@@ -67,6 +67,7 @@ const Dash = () => {
     <div className="buttons">
     <button className="primary ghost">Favorite Teacher</button> &ensp; {user.teacher}
     </div>
+    
 
     <div className="bday_parent">
     {totalBday > 0 &&
