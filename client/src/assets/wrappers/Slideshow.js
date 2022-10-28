@@ -24,7 +24,7 @@ const Wrapper = styled.section`
 
 .thumbDiv{
 margin-top:20px;
- margin-left: 310px;
+ margin-left: 30%;
 }
 .lowerBody{ 
   margin-left: 22%;
