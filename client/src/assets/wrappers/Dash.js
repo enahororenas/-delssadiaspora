@@ -64,8 +64,8 @@ p {
   padding-top: 30px;
   position: relative;
   max-width: 100%;
-  //height: fit-content;
-  //margin:10px;
+  height: 100%;
+  
   text-align: center;
 }
 
@@ -157,7 +157,9 @@ button.primary.ghost {
     .nonelem{
       margin-left: -100px;
     }
-
+    .nonebdy{
+      justify-self: start;
+    }
     .dashboard {
       grid-template-columns: auto 1fr;
     
@@ -193,6 +195,8 @@ button.primary.ghost {
   button.primary.ghost {
     width: 150px;
   }
+  
+  
 }
 `
 export default Wrapper
