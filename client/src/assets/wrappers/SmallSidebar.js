@@ -18,12 +18,19 @@ const Wrapper = styled.aside`
   .show-sidebar {
     z-index: 99;
     opacity: 1;
+    overflow-y: scroll;
+    top: 0;
+    bottom: 0;
   }
   .content {
     background: var(--white);
-    //width: var(--fluid-width);
+    width: var(--fluid-width);
     width: fit-content;
-    height: fit-content;
+    //height: fit-content;
+
+    //height: 95vh;
+    
+
     border-radius: var(--borderRadius);
     padding: 4rem 2rem;
     position: relative;
@@ -31,10 +38,11 @@ const Wrapper = styled.aside`
     align-items: center;
     flex-direction: column;
   }
+
   .close-btn {
     position: absolute;
-    top: 10px;
-    left: 10px;
+   // top: 10px;
+    right: 10px;
     background: transparent;
     border-color: transparent;
     font-size: 2rem;
