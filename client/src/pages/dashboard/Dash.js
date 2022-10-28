@@ -1,6 +1,6 @@
 import React,{ useEffect } from 'react'
 import Wrapper from '../../assets/wrappers/Dash'
-import {Navbar,BigSidebar,SmallSidebar,UserInfo} from '../../components'
+import {Navbar,BigSidebar,SmallSidebar} from '../../components'
 import { useAppContext } from '../../context/appContext'
 import {FaBirthdayCake} from 'react-icons/fa'
 
