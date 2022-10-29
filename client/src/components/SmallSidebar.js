@@ -6,16 +6,18 @@ import { useAppContext } from '../context/appContext'
 import NavLinks from './NavLinks'
 
 const SmallSidebar = () => {
-    const {showSidebar,toggleSidebar} = useAppContext()
-    //console.log('SBB',showSidebar)
+    const {showSidebar,toggleSidebar,user} = useAppContext()
+    //console.log('SBB',user)
   return (
     <Wrapper>
         <div className={showSidebar?'sidebar-container show-sidebar':'sidebar-container'}> 
         <div className='content'>
             
             {/*<header><Logo/></header>*/}
-            <div style={{paddingTop:'2rem'}}>
-            <button type='button' className='close-btn' onClick={toggleSidebar}><FaTimes/></button>
+
+            <div className={user.admin ?'bar-details-admin':'bar-details'}>
+            <button type='button' className='close-btn' onClick={toggleSidebar}><FaTimes/>
+            </button>
               <NavLinks toggleSidebar={toggleSidebar}/></div>
             
         </div>
