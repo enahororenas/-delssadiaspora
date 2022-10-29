@@ -10,7 +10,6 @@ const Wrapper = styled.section`
   }
   .dashboard-page {
     margin: 0 ;
-    
   }
   .jobs {
     display: grid;
@@ -18,6 +17,16 @@ const Wrapper = styled.section`
     row-gap: 2rem;
     margin-left: 20px;
   }
+
+  .members_number{
+    text-align:center;
+    font-size:40px;
+    margin-top:0;
+    font-weight:bold;
+    color:#191970;
+  }
+  
+
   @media (min-width: 992px) {
     .jobs {
       display: grid;
@@ -26,5 +35,11 @@ const Wrapper = styled.section`
       margin-left: 40px;
     }
   }
+
+  @media (max-width: 992px) {
+  .members_number{
+    font-size:28px;
+    }
+  } 
 `
 export default Wrapper
