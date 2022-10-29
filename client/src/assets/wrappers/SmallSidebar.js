@@ -27,12 +27,9 @@ const Wrapper = styled.aside`
     width: var(--fluid-width);
     width: fit-content;
     //height: fit-content;
-
     //height: 95vh;
-    
-
     border-radius: var(--borderRadius);
-    padding: 4rem 2rem;
+    padding: 2rem 2rem;
     position: relative;
     display: flex;
     align-items: center;
@@ -41,7 +38,6 @@ const Wrapper = styled.aside`
 
   .close-btn {
     position: absolute;
-    margin-top: 40px;
     right: 10px;
     background: transparent;
     border-color: transparent;
@@ -49,8 +45,18 @@ const Wrapper = styled.aside`
     color: var(--red-dark);
     cursor: pointer;
   }
+
+   .bar-details{
+    padding-top:2rem;
+   }
+
+   .bar-details-admin{
+    padding-top:6rem;
+   }
+
+
   .nav-links {
-    padding-top: 2rem;
+    //padding-top: 2rem;
     display: flex;
     flex-direction: column;
   }
