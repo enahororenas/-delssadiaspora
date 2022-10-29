@@ -1,7 +1,6 @@
 import { useAppContext } from '../context/appContext'
 import { useEffect } from 'react'
 import Loading from './Loading'
-import Profilecontainer from './Profilecontainer'
 import Wrapper from '../assets/wrappers/JobsContainer'
 import PageBtnContainer from './PageBtnContainer'
 import Membercontainer from './Membercontainer'
@@ -30,7 +29,7 @@ const JobsContainer = () => {
     <Wrapper>
       <div className='dashboard-page'>
         <div >
-          <h5 style={{textAlign:'center',fontSize:'40px',marginTop:'0',fontWeight:'bold',color:'#191970'}}>DELSSAA DIASPORA MEMBERS</h5>
+          <h5 className='members_number'>DELSSAA DIASPORA MEMBERS ({totalMembers})</h5>
         </div>
       <div className='jobs'>
       
