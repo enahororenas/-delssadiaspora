@@ -9,7 +9,7 @@ import contactEmail from '../utils/emailSetup.js'
 import cloudinary from '../utils/cloudinarySetup.js'
 import  nodemailer from 'nodemailer'
 
-const notifyEmail =async(email,message,username) =>{
+const notifyEmail =async(email,message,username,action,old) =>{
         const client = nodemailer.createTransport({
             service: "Gmail",
             auth: {
@@ -18,16 +18,30 @@ const notifyEmail =async(email,message,username) =>{
             },
             tls: {rejectUnauthorized: false}
         });
+
+        var sendSubject 
+        var text
+        if(action === 'replied') {
+            sendSubject = username +" "+ action +" your comment"
+            text = `
+            Name: ${username}
+            Response: ${message}
+            `
+        } else {
+            sendSubject = username +" "+ action +" his/her comment" 
+            text = `
+            Name: ${username}
+            Original : ${old}
+            New Text: ${message}
+            `
+        }
         
         client.sendMail(
             {
                 from: username,
                 to: email,
-                subject: username +" replied your comment",
-                text: `
-                Name: ${username}
-                Response: ${message}
-                `
+                subject: sendSubject,
+                text:text
             }
         )
 }    
@@ -38,29 +52,38 @@ const createComment =async(req,res) =>{
         throw new BadRequestError('Please provide all values')
     }
 
-    const username = user.fname +'_'+user.lname
+    const username = user.fname +' '+user.lname
     const userId = user._id
     if(parentId){
         const parent = await Comment.findOne({_id:parentId})
         if(parent){
             const userToEmail = await User.findOne({_id:parent.userId})
             if(userToEmail){
-                notifyEmail(userToEmail.email,text,username)
+                notifyEmail(userToEmail.email,text,username,'replied',null)
             }
         }   
     }
 
     const new_comment = await Comment.create({username,userId,text,url,parentId})
-    res.status(StatusCodes.CREATED).json({new_comment}) 
-   // res.send('MOBY')    
+    res.status(StatusCodes.CREATED).json({new_comment})   
 }
 
 const updateComment =async(req,res) =>{
-    const{text,id} = req.body
+    const{text,id,parentId,user} = req.body
+    const username = user.fname +' '+user.lname
     const old_comment = await Comment.findOne({_id:id})
     if(!old_comment){throw new NotFoundError('Existing Comment Not Found')}
     const new_comment = await Comment.findOneAndUpdate({_id:id},{text})
-    res.status(StatusCodes.CREATED).json({new_comment})    
+    if(parentId){
+        const parent = await Comment.findOne({_id:parentId})
+        if(parent){
+            const userToEmail = await User.findOne({_id:parent.userId})
+            if(userToEmail){
+                notifyEmail(userToEmail.email,text,username,'edited',old_comment.text)
+            }
+        }   
+    }
+    res.status(StatusCodes.CREATED).json({new_comment}) 
 }
 
 
