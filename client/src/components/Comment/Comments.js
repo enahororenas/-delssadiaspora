@@ -27,8 +27,8 @@ const Comments = ({url}) => {
         setActiveComment(null);
     };  
 
-    const updateComment = (text,id) => { 
-          updateUserComment({text,id})
+    const updateComment = (text,id,parentId) => { 
+          updateUserComment({text,id,parentId,user})
           setActiveComment(null);  
       };
 
