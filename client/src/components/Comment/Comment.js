@@ -32,7 +32,7 @@ const Comment = ({comment,replies,setActiveComment,activeComment,updateComment,d
               submitLabel="Update"
               hasCancelButton
               initialText={comment.text}
-              handleSubmit={(text) => updateComment(text, comment._id)}
+              handleSubmit={(text) => updateComment(text, comment._id,comment.parentId)}
               handleCancel={() => {  setActiveComment(null); }}
             />
           )}
