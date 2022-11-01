@@ -17,12 +17,17 @@ dotenv.config()
 const app = express()
 if(process.env.NODE_ENV !== 'production'){app.use(morgan('dev'))}
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-app.use(express.static(path.resolve(__dirname, './client/build')))
+
+if (process.env.NODE_ENV === 'production') {
+    //*Set static folder up in production
+    app.use(express.static('client/build'));
+    app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
+  }
+
+//const __dirname = dirname(fileURLToPath(import.meta.url))
+//app.use(express.static(path.resolve(__dirname, './client/build')))
 
 app.use(express.json({limit: '50mb'}))
-
-//app.get('/',(req,res)=>{ res.send('WELCOME HOME!')})
 
 app.use('/api/dias/auth',authRouter)
 app.use('/api/dias/user',authenticateUser,jobRouter)
